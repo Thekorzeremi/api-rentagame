@@ -19,10 +19,65 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="profil-banner">
-
+            <div className="h2">
+                <h2>RECOMMENDED GAMES</h2>
+            </div>
+            <div className="carousel">
+                <div className="cards">
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="title">
+                            <span>GTA 6</span>
+                        </div>
+                        <div className="note">
+                            <span>4</span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="container">
+                <div className="h2">
+                    <h2>RECENTLY ADDED</h2>
+                </div>
                 <div className="cards">
                     <div className="card">
                         <div className="image"></div>
@@ -30,8 +85,295 @@ export default function Home() {
                             <div className="title">
                                 <span>TITLE</span>
                             </div>
-                            <div className="describe">
-                                <span>AZER SDC SDFG QSDF B F QSVS QCVS SDF SQDC CS SDFSQD F </span>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h2">
+                    <h2>MOST POPULAR</h2>
+                </div>
+                <div className="cards">
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="h2">
+                    <h2>ALL GAMES</h2>
+                </div>
+                <div className="cards">
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
+                            </div>
+                            <div className="price">
+                                <span>9.99$</span>
+                            </div>
+                            <div className="note">
+                                <span>4</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="card">
+                        <div className="image"></div>
+                        <div className="resume">
+                            <div className="title">
+                                <span>TITLE</span>
                             </div>
                             <div className="price">
                                 <span>9.99$</span>
