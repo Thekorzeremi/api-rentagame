@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../style/Home.scss';
+// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function Home() {
     const [jeux, setJeux] = useState([]);
     const [user, setUser] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -22,6 +25,14 @@ export default function Home() {
 
         fetchJeux();
     }, []);
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => prevIndex + 2);
+      };
+    
+      const handlePrev = () => {
+        setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 2));
+      };
 
     return (
         <div className='content'>
@@ -44,67 +55,27 @@ export default function Home() {
             <div className="h2">
                 <h2>RECOMMENDED GAMES</h2>
             </div>
+            <div className="btn-carou">
+                <div onClick={handlePrev}>
+                    {/* <ArrowBackIosIcon /> */}
+                    Précédent
+                </div>
+                <div onClick={handleNext}>Suivant</div>
+            </div>
             <div className="carousel">
-                <div className="cards">
+            {jeux.slice(currentIndex, currentIndex + 2).map((jeu, index) => (
+                <div key={index} className="cards">
                     <div className="card">
+                        <img src={jeu.image} alt="" />
                         <div className="title">
-                            <span>GTA 6</span>
+                        <span>{jeu.title}</span>
                         </div>
                         <div className="note">
-                            <span>4</span>
+                        <span>{jeu.note}</span>
                         </div>
                     </div>
                 </div>
-                <div className="cards">
-                    <div className="card">
-                        <div className="title">
-                            <span>GTA 6</span>
-                        </div>
-                        <div className="note">
-                            <span>4</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="cards">
-                    <div className="card">
-                        <div className="title">
-                            <span>GTA 6</span>
-                        </div>
-                        <div className="note">
-                            <span>4</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="cards">
-                    <div className="card">
-                        <div className="title">
-                            <span>GTA 6</span>
-                        </div>
-                        <div className="note">
-                            <span>4</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="cards">
-                    <div className="card">
-                        <div className="title">
-                            <span>GTA 6</span>
-                        </div>
-                        <div className="note">
-                            <span>4</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="cards">
-                    <div className="card">
-                        <div className="title">
-                            <span>GTA 6</span>
-                        </div>
-                        <div className="note">
-                            <span>4</span>
-                        </div>
-                    </div>
-                </div>
+            ))}
             </div>
             <div className="container">
                 <div className="h2">
@@ -114,13 +85,18 @@ export default function Home() {
                     {jeux.map((jeu) => (
                         <div className="card">
                             <div className="image">
-                                <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                                <img src={jeu.image} alt="" />
                             </div>
-                            <div className="price">
-                                <span>{jeu.prix}</span>
-                            </div>
-                            <div className="note">
-                                <span>{jeu.note}</span>
+                            <div className="resume">
+                                <div className="title">
+                                    <span>{jeu.nom}</span>
+                                </div>
+                                <div className="price">
+                                    <span>{jeu.prix}</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -132,13 +108,18 @@ export default function Home() {
                     {jeux.map((jeu) => (
                         <div className="card">
                             <div className="image">
-                                <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                                <img src={jeu.image} alt="" />
                             </div>
-                            <div className="price">
-                                <span>{jeu.prix}</span>
-                            </div>
-                            <div className="note">
-                                <span>{jeu.note}</span>
+                            <div className="resume">
+                                <div className="title">
+                                    <span>{jeu.nom}</span>
+                                </div>
+                                <div className="price">
+                                    <span>{jeu.prix}</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -150,13 +131,18 @@ export default function Home() {
                 {jeux.map((jeu) => (
                     <div className="card">
                         <div className="image">
-                            <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                            <img src={jeu.image} alt="" />
                         </div>
-                        <div className="price">
-                            <span>{jeu.prix}</span>
-                        </div>
-                        <div className="note">
-                            <span>{jeu.note}</span>
+                        <div className="resume">
+                            <div className="title">
+                                    <span>{jeu.nom}</span>
+                                </div>
+                            <div className="price">
+                                <span>{jeu.prix}</span>
+                            </div>
+                            <div className="note">
+                                <span>{jeu.note}</span>
+                            </div>
                         </div>
                     </div>
                 ))}

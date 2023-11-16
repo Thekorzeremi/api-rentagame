@@ -46,26 +46,51 @@
         font-size: 1.5rem;
     }
 
+    .btn-carou {
+        display: flex;
+        justify-content: end;
+        width: 90vw;
+
+        &>div {
+            margin: 0 1rem;
+            cursor: pointer;
+            font-weight: 700;
+            
+            &:hover {
+                color: var(--color-primary);
+            }
+        }
+    }
+
     .carousel {
         height: 21rem;
         display: flex;
         margin-top: 1rem;
-        overflow-x: scroll;
 
         .cards {
             display: flex;
             height: 100%;
-
+            
             &:last-child {
                 margin-right: 1rem;
             }
-
+            
             .card {
                 position: relative;
                 background-color: cyan ;
                 height: 100%;
                 min-width: 40rem;
                 margin: 0 1rem;
+                border-radius: 10px;
+                overflow: hidden;
+
+                img {
+                    object-fit: cover;
+                    width: 40rem;
+                    margin-top: -5rem;
+                    border-radius: 10px;
+
+                }
 
                 .title {
                     position: absolute;
@@ -100,34 +125,30 @@
                 position: relative;
                 height: 18rem;
                 width: 12rem;
-                background-color: red;
                 margin: 1.5rem 0 0 2.5rem;
                 border-radius: 10px;
+                background-color: var(--color-box);
 
                 .image {
                     width: 100%;
                     height: 75%;
-                    background-color: yellow;
+                    overflow: hidden;
 
-                    #jeuxCoverImg {
+                    img {
                         width: 100% ;
                         height: auto;
+                        border-radius: 10px;
                       }
                 }
 
                 .resume {
+                    height: 3rem;
 
                     .title {
                         height: 2.5rem;
                         display: flex;
                         align-items: center;
                         justify-content: start;
-                        margin: 0 1rem;
-                    }
-    
-                    .describe {
-                        height: 6rem;
-                        width: auto;
                         margin: 0 1rem;
                     }
     
