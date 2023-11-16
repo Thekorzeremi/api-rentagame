@@ -40,7 +40,7 @@ VALUES
 ('104', 'Call of Duty: Warzone', 4.2, 0.00, 'Jeu de tir en ligne', 'warzone.jpg'),
 ('105', 'Minecraft', 4.7, 24.99, 'Jeu de construction et d\'aventure', 'minecraft.jpg');
 
-INSERT INTO Location (id, date_emprunt, date_retour, id_1, id_2)
+INSERT INTO Louer (id, date_emprunt, date_retour, id_1, id_2)
 VALUES 
 ('201', '2023-11-01 10:00:00', '2023-11-05 18:00:00', '101', '1'),
 ('202', '2023-10-20 14:30:00', '2023-10-25 12:00:00', '103', '2'),
