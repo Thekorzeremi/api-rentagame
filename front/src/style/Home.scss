@@ -118,14 +118,14 @@
                       }
                 }
 
-<<<<<<< HEAD
                 .resume {
 
                     .title {
-                        height: 2rem;
+                        height: 2.5rem;
                         display: flex;
                         align-items: center;
-                        justify-content: center;
+                        justify-content: start;
+                        margin: 0 1rem;
                     }
     
                     .describe {
@@ -147,18 +147,8 @@
                         font-size: 2rem;
                     }
 
-=======
-                .title {
-                    height: 2.5rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: start;
-                    margin: 0 1rem;
->>>>>>> a9890697e092c36ebc814b27ecf16fffef76c04c
-                }
-
             }
         }
 
     }
-}
+    }}
