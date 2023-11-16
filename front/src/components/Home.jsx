@@ -8,6 +8,8 @@ export default function Home() {
     const [jeux, setJeux] = useState([]);
     const [user, setUser] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isLogin, setIsLogin] = useState(false);
+    const [isRegister, setIsRegister] = useState(false);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -28,14 +30,79 @@ export default function Home() {
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
-      };
+    };
     
-      const handlePrev = () => {
+    const handlePrev = () => {
         setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 2));
-      };
+    };
+
+    const handleLoginClick = () => {
+        setIsLogin(true);
+    };
+
+    const closeLoginPopup = () => {
+        setIsLogin(false);
+    };
+
+    const handleRegisterClick = () => {
+        setIsRegister(true);
+    };
+
+    const closeRegisterPopup = () => {
+        setIsRegister(false);
+    };
 
     return (
         <div className='content'>
+            {isLogin && (
+                <div className="login-popup">
+                    <div className="container">
+                        <div className="title">
+                            <h2>LOGIN</h2>
+                        </div>
+                        <div className="form">
+                            <div className="email">
+                                <input type="text" placeholder='Email' required/>
+                            </div>
+                            <div className="password">
+                                <input type="password"placeholder='Password' required/>
+                            </div>
+                            <div className="submit">
+                                <span onClick={closeLoginPopup}>SUBMIT</span>
+                            </div>
+                        </div>
+                        <div className="close-btn" onClick={closeLoginPopup}>
+                            Close
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isRegister && (
+                <div className="register-popup">
+                    <div className="container">
+                        <div className="title">
+                            <h2>REGISTER</h2>
+                        </div>
+                        <div className="form">
+                            <div className="pseudo">
+                                <input type="text" placeholder='Pseudo' required/>
+                            </div>
+                            <div className="email">
+                                <input type="text" placeholder='Email' required/>
+                            </div>
+                            <div className="password">
+                                <input type="password"placeholder='Password' required/>
+                            </div>
+                            <div className="submit">
+                                <span onClick={closeRegisterPopup}>SUBMIT</span>
+                            </div>
+                        </div>
+                        <div className="close-btn" onClick={closeRegisterPopup}>
+                            Close
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="header">
                 <div className="logo">
                     <span>SCAM</span>
@@ -44,10 +111,10 @@ export default function Home() {
                     <input type="text" placeholder="Recherche"/>
                 </div>
                 <div className="login-btn">
-                    <div className="login">
+                    <div className="login" onClick={handleLoginClick}>
                         <span>LOGIN</span>
                     </div>
-                    <div className="register">
+                    <div className="register" onClick={handleRegisterClick}>
                         <span>REGISTER</span>
                     </div>
                 </div>
