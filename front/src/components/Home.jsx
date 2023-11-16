@@ -55,7 +55,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                4<div className="cards">
+                <div className="cards">
                     <div className="card">
                         <div className="title">
                             <span>GTA 6</span>
