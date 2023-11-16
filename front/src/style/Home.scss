@@ -78,19 +78,25 @@
             
             .card {
                 position: relative;
-                background-color: cyan ;
                 height: 100%;
                 min-width: 40rem;
                 margin: 0 1rem;
-                border-radius: 10px;
+                border-radius: 5px;
                 overflow: hidden;
-
+                cursor: pointer;
+                
+                &:hover {
+                    img {
+                        transform: scale(1.03);
+                    }
+                }
+                
                 img {
                     object-fit: cover;
                     width: 40rem;
                     margin-top: -5rem;
-                    border-radius: 10px;
-
+                    border-radius: 5px;
+                    transition: all .2s ease-in-out;
                 }
 
                 .title {
@@ -98,6 +104,7 @@
                     bottom: 10%;
                     left: 5%;
                     font-size: 1.6rem;
+                    color: var(--color-gray);
                 }
 
                 .note {
@@ -127,18 +134,32 @@
                 height: 18rem;
                 width: 12rem;
                 margin: 1.5rem 0 0 2.5rem;
-                border-radius: 10px;
+                border-radius: 5px;
                 background-color: var(--color-box);
+                transition: all .2s ease-in-out;
+                cursor: pointer;
 
+                &:hover {
+                    background-color: var(--color-box-hover);
+
+                    img {
+                        transform: scale(1.05);                        
+                    }
+                }
+                
                 .image {
                     width: 100%;
                     height: 75%;
+                    border-top-right-radius: 5px;
+                    border-top-left-radius: 5px;
                     overflow: hidden;
 
                     img {
                         width: 100% ;
                         height: auto;
-                        border-radius: 10px;
+                        border-top-right-radius: 5px;
+                        border-top-left-radius: 5px;
+                        transition: all .3s ease-in-out;
                       }
                 }
 
@@ -189,7 +210,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-radius: 10px;
+            border-radius: 5px;
 
             .title {
                 width: 50%;
@@ -270,7 +291,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            border-radius: 10px;
+            border-radius: 5px;
 
             .title {
                 width: 50%;

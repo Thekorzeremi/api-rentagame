@@ -135,10 +135,10 @@ export default function Home() {
                     <div className="card">
                         <img src={jeu.image} alt="" />
                         <div className="title">
-                        <span>{jeu.title}</span>
+                            <span>{jeu.nom}</span>
                         </div>
                         <div className="note">
-                        <span>{jeu.note}</span>
+                            <span>{jeu.note}</span>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@ export default function Home() {
                                     <span>{jeu.nom}</span>
                                 </div>
                                 <div className="price">
-                                    <span>{jeu.prix}</span>
+                                    <span>{jeu.prix}$</span>
                                 </div>
                                 <div className="note">
                                     <span>{jeu.note}</span>
@@ -182,7 +182,7 @@ export default function Home() {
                                     <span>{jeu.nom}</span>
                                 </div>
                                 <div className="price">
-                                    <span>{jeu.prix}</span>
+                                    <span>{jeu.prix}$</span>
                                 </div>
                                 <div className="note">
                                     <span>{jeu.note}</span>
@@ -205,7 +205,7 @@ export default function Home() {
                                     <span>{jeu.nom}</span>
                                 </div>
                             <div className="price">
-                                <span>{jeu.prix}</span>
+                                <span>{jeu.prix}$</span>
                             </div>
                             <div className="note">
                                 <span>{jeu.note}</span>
