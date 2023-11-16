@@ -1,6 +1,28 @@
-import '../style/Home.scss'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import '../style/Home.scss';
 
 export default function Home() {
+    const [jeux, setJeux] = useState([]);
+    const [user, setUser] = useState([]);
+
+    useEffect(() => {
+        const fetchJeux = async () => {
+            try {
+                const jeuxRes = await axios.get('http://localhost:3000/jeux');
+                const jeuxRecuperes = jeuxRes.data;
+                const userRes = await axios.get('http://localhost:3000/utilisateurs');
+                const userRecuperes = userRes.data;
+                setUser(userRecuperes);
+                setJeux(jeuxRecuperes);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        fetchJeux();
+    }, []);
+
     return (
         <div className='content'>
             <div className="header">
@@ -23,25 +45,26 @@ export default function Home() {
 
             </div>
             <div className="container">
-                <div className="cards">
-                    <div className="card">
-                        <div className="image"></div>
-                        <div className="resume">
-                            <div className="title">
-                                <span>TITLE</span>
+                {jeux.map((jeu) => (
+                    <div className="cards">
+                        <div className="card">
+                            <div className="image">
+                                <img id="jeuxCoverImg" src={jeu.image} alt="" />
                             </div>
-                            <div className="describe">
-                                <span>AZER SDC SDFG QSDF B F QSVS QCVS SDF SQDC CS SDFSQD F </span>
-                            </div>
-                            <div className="price">
-                                <span>9.99$</span>
-                            </div>
-                            <div className="note">
-                                <span>4</span>
+                            <div className="resume">
+                                <div className="title">
+                                    <span>{jeu.nom}</span>
+                                </div>
+                                <div className="price">
+                                    <span>{jeu.prix + "€"}</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ))}
             </div>
         </div>
     )

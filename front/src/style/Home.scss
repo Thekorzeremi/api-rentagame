@@ -69,33 +69,43 @@
                     width: 100%;
                     height: 50%;
                     background-color: yellow;
+
+                    #jeuxCoverImg {
+                        width: 100% ;
+                        height: auto;
+                      }
                 }
 
-                .title {
-                    height: 2rem;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
+                .resume {
+
+                    .title {
+                        height: 2rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+    
+                    .describe {
+                        height: 6rem;
+                        width: auto;
+                        margin: 0 1rem;
+                    }
+    
+                    .price {
+                        width: auto;
+                        margin: 0 1rem;
+                        text-align: end;
+                    }
+    
+                    .note {
+                        position: absolute;
+                        top: 1rem;
+                        right: 1rem;
+                        font-size: 2rem;
+                    }
+
                 }
 
-                .describe {
-                    height: 6rem;
-                    width: auto;
-                    margin: 0 1rem;
-                }
-
-                .price {
-                    width: auto;
-                    margin: 0 1rem;
-                    text-align: end;
-                }
-
-                .note {
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    font-size: 2rem;
-                }
             }
         }
 
