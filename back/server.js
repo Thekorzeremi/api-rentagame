@@ -61,7 +61,6 @@ app.post('/login', async (req, res) => {
                 res.status(200).json({
                     id: user.id,
                     prenom: user.prenom,
-                    nom: user.nom,
                     email: user.email,
                     message: 'Connexion réussie'}
                 )
@@ -92,9 +91,9 @@ app.post('/rent', async (req,res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('INSERT INTO Louer (comment, date_emprunt, date_retour) VALUES (?, ?, ?)', {
+        const result = await conn.query('INSERT INTO Louer (comment, date_emprunt, date_retour, id_1, id_2) VALUES (?, ?, ?, ?, ?)', {
         });
-        res.status(200).json(rows);
+        res.status(200).json(result);
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Erreur Serveur' });
@@ -139,10 +138,9 @@ app.post('/utilisateurs', async (req, res) => {
         // const hashedEmail = await bcrypt.hash(newUser.email, 10);
 
         const result = await conn.query('INSERT INTO utilisateur (pseudo, email, pwd) VALUES (?, ?, ?)', [
+            newUser.pseudo,
             newUser.email,
-            hashedPassword,
-            newUser.nom,
-            newUser.prenom,
+            hashedPassword
         ]);
 
         const insertedUserId = result.insertId.toString();
