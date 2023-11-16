@@ -39,7 +39,7 @@ app.get('/jeux/:id', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM article WHERE id = ?', [id]);
+        const rows = await conn.query('SELECT * FROM Jeux WHERE id = ?', [id]);
         conn.release();
         res.status(200).json(rows[0]);
     } catch (err) {
