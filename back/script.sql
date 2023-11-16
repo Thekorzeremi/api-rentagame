@@ -20,6 +20,7 @@ CREATE TABLE Utilisateurs(
 
 CREATE TABLE Location(
    id VARCHAR(50),
+   comment VARCHAR(255),
    date_emprunt DATETIME,
    date_retour DATETIME,
    id_1 VARCHAR(50) NOT NULL,
