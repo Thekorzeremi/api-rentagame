@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    background-color: var(--color-background);
+    color: var(--color-font);
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --color-primary: #349de8;
+    --color-primary-hover: #349de8dd;
+    --color-inactive: #349de87e;
+    --color-box: #293b4c;
+    --color-bg-hover: #344657;
+    --color-border: #607482;
+    --color-font: #fff;
+    --color-gray: #e3f9ff;
+    --color-background: #1e2732;
+    --color-btn-gray-hover: #4d5d6d;
+  }
