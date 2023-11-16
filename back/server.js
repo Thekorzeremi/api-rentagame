@@ -1,11 +1,13 @@
+// Declaration of const used by server
 const express = require("express");
 const mariadb = require("mariadb");
 const bcrypt = require('bcryptjs');
-const cors = require("cors");
+const cors = require("cors"); // CORS needed to use API
 require('dotenv').config();
 const app = express()
 const port = process.env.PORT || 3000;
 
+// Declaring pool to link DB
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -14,13 +16,19 @@ const pool = mariadb.createPool({
     password: process.env.DB_PWD,
 })
 
+// Declaring const to use LocalStorage
+const ls = localStorage;
+
+// Using CORS, EXPRESS
 app.use(express.json());
 app.use(cors());
 
+// Root GET request displaying a cool message
 app.get('/', (req, res) => {
     res.json('Hello la Team !')
 })
 
+// GET request to display games to WebPage
 app.get('/jeux', async (req, res) => {
     let conn;
     try {
@@ -34,6 +42,7 @@ app.get('/jeux', async (req, res) => {
     }
 })
 
+// GET request to display specific game
 app.get('/jeux/:id', async (req, res) => {
     const id = req.params.id;
     let conn;
@@ -48,6 +57,7 @@ app.get('/jeux/:id', async (req, res) => {
     }
 });
 
+// POST request to log into the website
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -56,6 +66,7 @@ app.post('/login', async (req, res) => {
         conn.release();
         if (rows.length > 0) {
             const user = rows[0];
+            ls.setItem("key1" , user.id);
             const match = await bcrypt.compare(password, user.pwd);
             if (match) {
                 res.status(200).json({
@@ -75,11 +86,13 @@ app.post('/login', async (req, res) => {
     }
 })
 
+// GET request to display all user rent
 app.get('/louer', async (req,res) => {
     let conn;
+    const userId = ls.getItem("key1");
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('SELECT * FROM Louer');
+        const result = await conn.query('SELECT * FROM Louer WHERE id_2 = ?', [userId]);
         res.status(200).json(result);
     } catch (err) {
         console.log(err);
@@ -87,12 +100,20 @@ app.get('/louer', async (req,res) => {
     }
 })
 
+// POST request to add a rent
 app.post('/rent', async (req,res) => {
     let conn;
+    const userId = ls.getItem("key1");
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('INSERT INTO Louer (comment, date_emprunt, date_retour, id_1, id_2) VALUES (?, ?, ?, ?, ?)', {
-        });
+        const result = await conn.query('INSERT INTO Louer (comment, date_emprunt, date_retour, id_1, id_2) VALUES (?, ?, ?, ?, ?)', [
+            req.comment,
+            req.date_emprunt,
+            req.date_retour,
+            req.id_1, // Current Game to select
+            userId,
+        ]
+        )
         res.status(200).json(result);
     } catch (err) {
         console.log(err);
@@ -100,6 +121,7 @@ app.post('/rent', async (req,res) => {
     }
 })
 
+// GET request to display all users
 app.get('/utilisateurs', async (req, res) => {
     let conn;
     try {
@@ -113,8 +135,9 @@ app.get('/utilisateurs', async (req, res) => {
     }
 })
 
+// GET request to display specific user
 app.get('/utilisateurs/:id', async (req, res) => {
-    const id = req.params.id;
+    const id = ls.getItem("key1");
     let conn;
     try {
         conn = await pool.getConnection();
@@ -127,6 +150,7 @@ app.get('/utilisateurs/:id', async (req, res) => {
     }
 });
 
+// POST request to register a new user
 app.post('/utilisateurs', async (req, res) => {
     const newUser = req.body;
     let conn;
@@ -134,8 +158,6 @@ app.post('/utilisateurs', async (req, res) => {
         conn = await pool.getConnection();
 
         const hashedPassword = await bcrypt.hash(newUser.pwd, 10);
-
-        // const hashedEmail = await bcrypt.hash(newUser.email, 10);
 
         const result = await conn.query('INSERT INTO utilisateur (pseudo, email, pwd) VALUES (?, ?, ?)', [
             newUser.pseudo,
@@ -145,7 +167,6 @@ app.post('/utilisateurs', async (req, res) => {
 
         const insertedUserId = result.insertId.toString();
         conn.release();
-
         res.status(201).json({ insertedUserId });
     } catch (err) {
         console.error(err);
@@ -153,6 +174,7 @@ app.post('/utilisateurs', async (req, res) => {
     }
 });
 
+// DELETE request to delete user
 app.delete('/utilisateurs/:id', async (req, res) => {
     const id = req.params.id;
     let conn;
