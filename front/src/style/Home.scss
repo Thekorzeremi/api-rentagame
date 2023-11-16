@@ -358,4 +358,76 @@
             }
         }
     }
+
+    .game-popup {
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        z-index: 9999;
+        background-color: var(--color-background);
+        overflow: hidden;
+    
+        .container {
+            position: relative;
+            margin: 2rem;
+            width: auto;
+            height: auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+    
+            .image {
+                height: 92vh;
+                width: 30vw;
+    
+                img {
+                    height: 100%;
+                }
+            }
+    
+            .details {
+                width: 30vw;
+                margin: 0 2rem;
+            }
+    
+            .avis {
+                width: 20vw;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+    
+                .title {
+                    font-size: 1.3rem;
+                }
+    
+                .comments {
+                    max-height: 82vh;
+                    overflow-y: auto;
+    
+                    .row-comment {
+                        background-color: var(--color-box);
+                        width: auto;
+                        margin: 1rem;
+                        min-height: 7rem;
+                        border-radius: 5px;
+    
+                        .author {
+                            margin: 1rem;
+                        }
+    
+                        .text {
+                            margin: 0 1rem 1rem 1rem;
+                        }
+                    }
+                }
+            }
+        }
+    
+        .close-btn {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            cursor: pointer;
+        }
+    }
 }

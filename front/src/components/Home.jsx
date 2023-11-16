@@ -10,6 +10,7 @@ export default function Home() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
+    const [selectedGame, setSelectedGame] = useState(true);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -50,6 +51,14 @@ export default function Home() {
 
     const closeRegisterPopup = () => {
         setIsRegister(false);
+    };
+
+    const handleGameClick = (index) => {
+        setSelectedGame(jeux[currentIndex + index]);
+    };
+
+    const closeGamePopup = () => {
+        setSelectedGame(null);
     };
 
     return (
@@ -103,6 +112,114 @@ export default function Home() {
                     </div>
                 </div>
             )}
+            {selectedGame && (
+                <div className="game-popup">
+                    <div className="container">
+                        <div className="image">
+                            <img src={selectedGame.image} alt="" />
+                        </div>
+                        <div className="details">
+                            <div className="info">
+                                <div className="title">
+                                    <h2>{selectedGame.nom}</h2>
+                                </div>
+                                <p>{selectedGame.descr}</p>
+                                <p>Price: {selectedGame.prix}$</p>
+                                <p>Rating: {selectedGame.note}</p>
+                            </div>
+                            <div className="action">
+                                <div className="loc">
+                                    <span>LOUER</span>
+                                </div>
+                                <div className="note">
+                                    <span>NOTER</span>
+                                    <div className="note-btn">
+                                        <span>1</span>
+                                        <span>2</span>
+                                        <span>3</span>
+                                        <span>4</span>
+                                        <span>5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="avis">
+                            <div className="title">
+                                <h2>Comments</h2>
+                            </div>
+                            <div className="comments">
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qar re za raz raz rzr a r er ra raeasdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                                <div className="row-comment">
+                                    <div className="author">
+                                        <span>NAME</span>
+                                    </div>
+                                    <div className="text">
+                                        <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="close-btn" onClick={closeGamePopup}>
+                            Close
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="header">
                 <div className="logo">
                     <span>SCAM</span>
@@ -130,9 +247,9 @@ export default function Home() {
                 <div onClick={handleNext}>Suivant</div>
             </div>
             <div className="carousel">
-            {jeux.slice(currentIndex, currentIndex + 2).map((jeu, index) => (
-                <div key={index} className="cards">
-                    <div className="card">
+                <div className="cards">
+                {jeux.slice(currentIndex, currentIndex + 2).map((jeu, index) => (
+                    <div key={index} className="card" onClick={() => handleGameClick(index)}>
                         <img src={jeu.image} alt="" />
                         <div className="title">
                             <span>{jeu.nom}</span>
@@ -141,16 +258,16 @@ export default function Home() {
                             <span>{jeu.note}</span>
                         </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
             </div>
             <div className="container">
                 <div className="h2">
                     <h2>RECENTLY ADDED</h2>
                 </div>
                 <div className="cards">
-                    {jeux.map((jeu) => (
-                        <div className="card">
+                    {jeux.map((jeu, index) => (
+                        <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
                             <div className="image">
                                 <img src={jeu.image} alt="" />
                             </div>
@@ -172,8 +289,8 @@ export default function Home() {
                     <h2>MOST POPULAR</h2>
                 </div>
                 <div className="cards">
-                    {jeux.map((jeu) => (
-                        <div className="card">
+                    {jeux.map((jeu, index) => (
+                        <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
                             <div className="image">
                                 <img src={jeu.image} alt="" />
                             </div>
@@ -195,25 +312,25 @@ export default function Home() {
                     <h2>ALL GAMES</h2>
                 </div>
                 <div className="cards">
-                {jeux.map((jeu) => (
-                    <div className="card">
-                        <div className="image">
-                            <img src={jeu.image} alt="" />
-                        </div>
-                        <div className="resume">
-                            <div className="title">
+                    {jeux.map((jeu, index) => (
+                        <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
+                            <div className="image">
+                                <img src={jeu.image} alt="" />
+                            </div>
+                            <div className="resume">
+                                <div className="title">
                                     <span>{jeu.nom}</span>
                                 </div>
-                            <div className="price">
-                                <span>{jeu.prix}$</span>
-                            </div>
-                            <div className="note">
-                                <span>{jeu.note}</span>
+                                <div className="price">
+                                    <span>{jeu.prix}$</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
         </div>
         </div>
     )
