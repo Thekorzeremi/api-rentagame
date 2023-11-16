@@ -61,58 +61,61 @@ export default function Home() {
                     <h2>RECENTLY ADDED</h2>
                 </div>
                 <div className="cards">
-                    <div className="card">
-                        <div className="image"></div>
-                        <div className="resume">
-                            <div className="title">
-                                <span>TITLE</span>
-                            </div>
-                            <div className="price">
-                                <span>9.99$</span>
-                            </div>
-                            <div className="note">
-                                <span>4</span>
+                    {jeux.map((jeu) => (
+                        <div className="cards">
+                            <div className="card">
+                                <div className="image">
+                                    <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                                </div>
+                                <div className="price">
+                                    <span>{jeu.prix}</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
                 <div className="h2">
                     <h2>MOST POPULAR</h2>
                 </div>
                 <div className="cards">
-                    <div className="card">
-                        <div className="image"></div>
-                        <div className="resume">
-                            <div className="title">
-                                <span>TITLE</span>
-                            </div>
-                            <div className="price">
-                                <span>9.99$</span>
-                            </div>
-                            <div className="note">
-                                <span>4</span>
+                    {jeux.map((jeu) => (
+                        <div className="cards">
+                            <div className="card">
+                                <div className="image">
+                                    <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                                </div>
+                                <div className="price">
+                                    <span>{jeu.prix}</span>
+                                </div>
+                                <div className="note">
+                                    <span>{jeu.note}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
                 <div className="h2">
                     <h2>ALL GAMES</h2>
                 </div>
                 <div className="cards">
-                    <div className="card">
-                        <div className="image"></div>
-                        <div className="resume">
-                            <div className="title">
-                                <span>TITLE</span>
+                {jeux.map((jeu) => (
+                    <div className="cards">
+                        <div className="card">
+                            <div className="image">
+                                <img id="jeuxCoverImg" src={jeu.image} alt="" />
                             </div>
                             <div className="price">
-                                <span>9.99$</span>
+                                <span>{jeu.prix}</span>
                             </div>
                             <div className="note">
-                                <span>4</span>
+                                <span>{jeu.note}</span>
                             </div>
                         </div>
                     </div>
+                ))}
             </div>
         </div>
         </div>
