@@ -49,15 +49,12 @@
     .carousel {
         height: 21rem;
         display: flex;
-        flex-direction: column;
-        overflow-x: hidden;
         margin-top: 1rem;
-
+        overflow-x: scroll;
 
         .cards {
             display: flex;
             height: 100%;
-            overflow-x: scroll;
 
             &:last-child {
                 margin-right: 1rem;
