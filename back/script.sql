@@ -18,7 +18,7 @@ CREATE TABLE Utilisateurs(
    PRIMARY KEY(id)
 );
 
-CREATE TABLE Location(
+CREATE TABLE Louer(
    id VARCHAR(50),
    comment VARCHAR(255),
    date_emprunt DATETIME,

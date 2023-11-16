@@ -55,7 +55,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-                4<div className="cards">
+                <div className="cards">
                     <div className="card">
                         <div className="title">
                             <span>GTA 6</span>
@@ -112,47 +112,6 @@ export default function Home() {
                 </div>
                 <div className="cards">
                     {jeux.map((jeu) => (
-                        <div className="cards">
-                            <div className="card">
-                                <div className="image">
-                                    <img id="jeuxCoverImg" src={jeu.image} alt="" />
-                                </div>
-                                <div className="price">
-                                    <span>{jeu.prix}</span>
-                                </div>
-                                <div className="note">
-                                    <span>{jeu.note}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="h2">
-                    <h2>MOST POPULAR</h2>
-                </div>
-                <div className="cards">
-                    {jeux.map((jeu) => (
-                        <div className="cards">
-                            <div className="card">
-                                <div className="image">
-                                    <img id="jeuxCoverImg" src={jeu.image} alt="" />
-                                </div>
-                                <div className="price">
-                                    <span>{jeu.prix}</span>
-                                </div>
-                                <div className="note">
-                                    <span>{jeu.note}</span>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="h2">
-                    <h2>ALL GAMES</h2>
-                </div>
-                <div className="cards">
-                {jeux.map((jeu) => (
-                    <div className="cards">
                         <div className="card">
                             <div className="image">
                                 <img id="jeuxCoverImg" src={jeu.image} alt="" />
@@ -163,6 +122,41 @@ export default function Home() {
                             <div className="note">
                                 <span>{jeu.note}</span>
                             </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="h2">
+                    <h2>MOST POPULAR</h2>
+                </div>
+                <div className="cards">
+                    {jeux.map((jeu) => (
+                        <div className="card">
+                            <div className="image">
+                                <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                            </div>
+                            <div className="price">
+                                <span>{jeu.prix}</span>
+                            </div>
+                            <div className="note">
+                                <span>{jeu.note}</span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className="h2">
+                    <h2>ALL GAMES</h2>
+                </div>
+                <div className="cards">
+                {jeux.map((jeu) => (
+                    <div className="card">
+                        <div className="image">
+                            <img id="jeuxCoverImg" src={jeu.image} alt="" />
+                        </div>
+                        <div className="price">
+                            <span>{jeu.prix}</span>
+                        </div>
+                        <div className="note">
+                            <span>{jeu.note}</span>
                         </div>
                     </div>
                 ))}
