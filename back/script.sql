@@ -34,11 +34,11 @@ CREATE TABLE Location(
 
 INSERT INTO Jeux (id, nom, note, prix, descr, image)
 VALUES 
-('101', 'Assassin\'s Creed', 4.5, 29.99, 'Jeu d\'action-aventure', 'assassins_creed.jpg'),
-('102', 'FIFA 22', 4.0, 49.99, 'Jeu de simulation de football', 'fifa22.jpg'),
-('103', 'The Legend of Zelda', 4.8, 59.99, 'Jeu d\'aventure fantastique', 'zelda.jpg'),
-('104', 'Call of Duty: Warzone', 4.2, 0.00, 'Jeu de tir en ligne', 'warzone.jpg'),
-('105', 'Minecraft', 4.7, 24.99, 'Jeu de construction et d\'aventure', 'minecraft.jpg');
+('101', 'Assassin\'s Creed', 4.5, 29.99, 'Jeu d\'action-aventure', 'https://static.posters.cz/image/750/affiches-et-posters/assassin-s-creed-iii-cover-i12703.jpg'),
+('102', 'FIFA 22', 4.0, 49.99, 'Jeu de simulation de football', 'https://a.espncdn.com/photo/2021/0709/r878390_864x1296_2-3.jpg'),
+('103', 'The Legend of Zelda', 4.8, 59.99, "Jeu d\'aventure fantastique", 'https://static.posters.cz/image/750/affiches-et-posters/zelda-breath-of-the-wild-game-cover-i34556.jpg'),
+('104', 'Call of Duty: Warzone', 4.2, 0.00, 'Jeu de tir en ligne', 'https://cdn.mobygames.com/covers/11179296-call-of-duty-warzone-20-xbox-one-front-cover.jpg'),
+('105', 'Minecraft', 4.7, 24.99, "Jeu de construction et d\'aventure", 'https://gpstatic.com/acache/66/18/1/fr/packshot-27f95370fd8a786059edfb9506703d18.jpg');
 
 INSERT INTO Louer (id, date_emprunt, date_retour, id_1, id_2)
 VALUES 
