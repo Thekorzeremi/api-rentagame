@@ -306,25 +306,28 @@ app.get('/comment/:jeu/:id', async (req, res) => {
     }
 })
 
-app.post('/comment/:jeu', async (req, res) => {
-    const currentGameId =  req.params.jeu;
-    const { comDate, newCom } = req.body;
+app.post('/comment', async (req, res) => {
+    const newCom = req.body;
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('INSERT INTO Commentaire (comment, comDate, idJeux, idUser) VALUES (?,?,?,?)', [
-            newCom,
-            comDate,
-            currentGameId,
-            currentUserId
+        const formattedDate = new Date().toISOString().slice(0, 19).replace("T", " ");
+        const result = await conn.query('INSERT INTO Commentaire (comment, idJeux, idUser, comDate) VALUES (?,?,?,?)', [
+            newCom.comment,
+            newCom.idJeux,
+            newCom.idUser,
+            formattedDate,
         ]);
+
+        const insertedComId = result.insertId.toString();
+
         conn.release();
-        res.status(200).json({ result })
+        res.status(200).json({ insertedComId })
     } catch (err) {
         res.status(500).json(err);
     }
+});
 
-})
 
 app.delete('/comment/:id', async (req,res) => {
     const id = req.params.id;
