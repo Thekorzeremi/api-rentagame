@@ -23,7 +23,8 @@ export default function Home() {
     const [pseudo, setPseudo] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
-    const [search, setSearch] = useState([]);
+    const [search, setSearch] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const [loginData, setLoginData] = useState({email: '',password: ''});
     const [isLoggedIn, setLoggedIn] = useState(true);
 
@@ -45,13 +46,17 @@ export default function Home() {
                 setUser(userRecuperes);
                 setJeux(jeuxRecuperes);
                 setCom(combinedComments);
+                const filteredJeux = jeuxRecuperes.filter(jeu =>
+                    jeu.nom.toLowerCase().includes(search.toLowerCase())
+                );
+                setSearchResults(filteredJeux);
             } catch (error) {
                 console.error(error);
             }
         }
 
         fetchJeux();
-    }, []);
+    }, [search]);
 
     useEffect(() => {
         const sortJeux = () => {
@@ -102,6 +107,10 @@ export default function Home() {
     const handleGameClick = (index) => {
         setSelectedGame(jeux[currentIndex + index]);
     };
+
+    const handleGameClickSearch = (index) => {
+        setSelectedGame(searchResults[currentIndex + index]);
+    }
 
     const handleGameClickRating = (index) => {
         setSelectedGame(jeuxNote[currentIndex + index]);
@@ -385,7 +394,7 @@ export default function Home() {
                         <div className="img">
                             <SearchIcon  style={{ fontSize: '1.8rem' }}/>
                         </div>
-                        <input type="text" placeholder="Recherche"/>
+                        <input type="text" placeholder="Recherche" value={search} onChange={(e) => setSearch(e.target.value)}/>
                     </div>
                     {!isConnected && (
                         <div className="login-btn">
@@ -433,74 +442,102 @@ export default function Home() {
                 </div>
                 </div>
                 <div className="container">
-                    <div className="h2">
-                        <h2>RECENTLY ADDED</h2>
-                    </div>
-                    <div className="cards"  id='filter-row'>
-                        {jeuxAdded.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
-                                <div className="image">
-                                    <img src={jeu.image} alt="" />
+                    {!search && (
+                        <div className="container">
+                                <div className="h2">
+                                    <h2>RECENTLY ADDED</h2>
                                 </div>
-                                <div className="resume">
-                                    <div className="title">
-                                        <span>{jeu.nom}</span>
+                                <div className="cards"  id='filter-row'>
+                                        {jeuxAdded.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                        <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
+                                            <div className="image">
+                                                <img src={jeu.image} alt="" />
+                                            </div>
+                                            <div className="resume">
+                                                <div className="title">
+                                                    <span>{jeu.nom}</span>
+                                                </div>
+                                                <div className="price">
+                                                    <span>{jeu.prix}$</span>
+                                                </div>
+                                                <div className="note">
+                                                    <span>{jeu.note}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        ))}
                                     </div>
-                                    <div className="price">
-                                        <span>{jeu.prix}$</span>
+                                    <div className="h2">
+                                        <h2>MOST POPULAR</h2>
                                     </div>
-                                    <div className="note">
-                                        <span>{jeu.note}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="h2">
-                        <h2>MOST POPULAR</h2>
-                    </div>
-                    <div className="cards" id='filter-row'>
-                        {jeuxNote.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
-                                <div className="image">
-                                    <img src={jeu.image} alt="" />
-                                </div>
-                                <div className="resume">
-                                    <div className="title">
-                                        <span>{jeu.nom}</span>
-                                    </div>
-                                    <div className="price">
-                                        <span>{jeu.prix}$</span>
-                                    </div>
-                                    <div className="note">
-                                        <span>{jeu.note}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                                        <div className="cards" id='filter-row'>
+                                            {jeuxNote.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                                <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
+                                                    <div className="image">
+                                                        <img src={jeu.image} alt="" />
+                                                    </div>
+                                                    <div className="resume">
+                                                        <div className="title">
+                                                            <span>{jeu.nom}</span>
+                                                        </div>
+                                                        <div className="price">
+                                                            <span>{jeu.prix}$</span>
+                                                        </div>
+                                                        <div className="note">
+                                                            <span>{jeu.note}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                        </div>
+                    )}
                     <div className="h2">
                         <h2>ALL GAMES</h2>
                     </div>
+                    {!search && (
+                        <div className="cards">
+                            {jeux.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                <div key={index} className="card" onClick={() => handleGameClick(index)}>
+                                    <div className="image">
+                                        <img src={jeu.image} alt="" />
+                                    </div>
+                                    <div className="resume">
+                                        <div className="title">
+                                            <span>{jeu.nom}</span>
+                                        </div>
+                                        <div className="price">
+                                            <span>{jeu.prix}$</span>
+                                        </div>
+                                        <div className="note">
+                                            <span>{jeu.note}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     <div className="cards">
-                        {jeux.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClick(index)}>
-                                <div className="image">
-                                    <img src={jeu.image} alt="" />
+                        {search &&
+                            searchResults.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                <div key={index} className="card" onClick={() => handleGameClickSearch(index)}>
+                                    <div className="image">
+                                        <img src={jeu.image} alt="" />
+                                    </div>
+                                    <div className="resume">
+                                        <div className="title">
+                                            <span>{jeu.nom}</span>
+                                        </div>
+                                        <div className="price">
+                                            <span>{jeu.prix}$</span>
+                                        </div>
+                                        <div className="note">
+                                            <span>{jeu.note}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="resume">
-                                    <div className="title">
-                                        <span>{jeu.nom}</span>
-                                    </div>
-                                    <div className="price">
-                                        <span>{jeu.prix}$</span>
-                                    </div>
-                                    <div className="note">
-                                        <span>{jeu.note}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        }
                     </div>
                 </div>
             </div>
