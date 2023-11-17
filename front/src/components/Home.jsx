@@ -24,6 +24,7 @@ export default function Home() {
     const [pseudo, setPseudo] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
+    const [search, setSearch] = useState([]);
     const [loginData, setLoginData] = useState({email: '',password: ''});
     const [isLoggedIn, setLoggedIn] = useState(true);
     const [isLocated, setLocated] = useState(true);
@@ -37,11 +38,17 @@ export default function Home() {
                 const userRecuperes = userRes.data;
                 const comRes = await axios.get('http://localhost:3000/comment');
                 const comRecuperes = comRes.data;
+                const comUserRes = await axios.get('http://localhost:3000/comment-user');
+                const comUserRecuperes = comUserRes.data;
+                const combinedComments = comRecuperes.map(comment => {
+                    const user = comUserRecuperes.find(user => user.idUser === comment.idUser);
+                    return { ...comment, pseudo: user ? user.pseudo : 'Unknown' };
+                });
                 const locRes = await axios.get('http://localhost:3000/emprunt');
                 const locRecuperes = locRes.data;
                 setUser(userRecuperes);
                 setJeux(jeuxRecuperes);
-                setCom(comRecuperes);
+                setCom(combinedComments);
                 setLoc(locRecuperes);
             } catch (error) {
                 console.error(error);
@@ -72,7 +79,7 @@ export default function Home() {
     }, [jeux]);
 
     const ls = localStorage;
-
+    
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
     };
@@ -183,8 +190,10 @@ export default function Home() {
     
         try {
             const res = await axios.post(`http://localhost:3000/comment`, newComment);
-            setCom([...com, newComment]);
-            setComment('')
+
+            console.log(res);
+            setCom((prevComments) => [...prevComments, { ...newComment, pseudo: ls.getItem("key2") }]);
+            setComment('');
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
@@ -231,6 +240,7 @@ export default function Home() {
                     pwd: pwd,
                 }
                 const res = await axios.post('http://localhost:3000/utilisateur', newUser);
+                isRegister(false);
             } else {
                 console.log('Le compte existe déjà');
             }
@@ -261,6 +271,17 @@ export default function Home() {
         } catch (error) {
             console.error(error);
             res.status(500).json('Erreur');
+        }
+    }
+
+    const handleLogout = async (req, res) => {
+        try {
+            localStorage.clear();
+            setLoggedIn(false);
+            setIsConnected(false);
+            setIsLogin(false);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -386,7 +407,7 @@ export default function Home() {
                                         .map((com, index) => (
                                             <div className="row-comment" key={index}>
                                                 <div className="author">
-                                                    <span>{ com.idUser }</span>
+                                                    <span>{ com.pseudo }</span>
                                                 </div>
                                                 <div className="text">
                                                     <span>{ com.comment }</span>
@@ -440,6 +461,9 @@ export default function Home() {
                     {isConnected && (
                         <div className="login-btn">
                             <p>{ls.getItem("key2")}</p>
+                            <div className="disco-btn" onClick={handleLogout}>
+                                <p>DISCONNECT</p>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -520,7 +544,7 @@ export default function Home() {
                         <h2>ALL GAMES</h2>
                     </div>
                     <div className="cards">
-                        {jeux.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                        {jeux.map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClick(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />

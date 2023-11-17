@@ -283,6 +283,19 @@ app.delete('/utilisateur/:id', async (req, res) => {
     }
 });
 
+app.get('/comment-user', async (req, res) => {
+    let conn;
+    try {
+      conn = await pool.getConnection();
+      const rows = await conn.query('SELECT commentaire.*, utilisateur.pseudo FROM commentaire INNER JOIN utilisateur ON commentaire.idUser = utilisateur.idUser');
+      conn.release();
+      res.json(rows); 
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' }); 
+    }
+  });
+
 app.get('/comment', async (req, res) => {
     let conn;
     try {
