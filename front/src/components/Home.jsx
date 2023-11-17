@@ -28,6 +28,7 @@ export default function Home() {
     const [loginData, setLoginData] = useState({email: '',password: ''});
     const [isLoggedIn, setLoggedIn] = useState(true);
     const [isLocated, setLocated] = useState(true);
+    const [userRating, setUserRating] = useState(0);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -102,6 +103,27 @@ export default function Home() {
 
     const closeRegisterPopup = () => {
         setIsRegister(false);
+    };
+
+    const handleRatingClick = async (rating) => {
+        setUserRating(rating);
+
+        if (!selectedGame) {
+            console.error('No game selected');
+            return;
+        }
+
+        try {
+            const updatedGame = {
+                ...selectedGame,
+                note: (Number(selectedGame.note) + Number(rating))/2,
+            };
+
+            await axios.put(`http://localhost:3000/jeu/${selectedGame.idJeux}`, updatedGame);
+            window.location.reload();
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de la note du jeu :', error);
+        }
     };
 
     const handleGameClick = (index) => {
@@ -221,6 +243,34 @@ export default function Home() {
         }
 
         window.location.reload();
+    };
+
+    const handleCancelLoc = async () => {
+        if (!selectedGame) {
+            console.error('No game selected');
+            return;
+        }
+
+        
+        try {
+            const existingLoc = loc.find(
+                (location) =>
+                Number(location.idJeux) === Number(selectedGame.idJeux) &&
+                Number(location.idUser) === Number(ls.getItem("key1")) &&
+                moment().isBetween(moment(location.date_emprunt), moment(location.date_retour))
+                );
+                
+            console.log(existingLoc.idLoc)
+
+            if (existingLoc) {
+                await axios.delete(`http://localhost:3000/emprunt/${existingLoc.idLoc}`);
+                window.location.reload();
+            } else {
+                console.log("Aucun emprunt à annuler");
+            }
+        } catch (error) {
+            console.error('Erreur lors de l\'annulation de l\'emprunt :', error);
+        }
     };
     
     moment.locale('fr');
@@ -385,16 +435,16 @@ export default function Home() {
                                     {isLocated && (
                                         <span >NE PEUT LOUER</span>
                                     )}
-                                        <span>ANNULER</span>
+                                        <span onClick={handleCancelLoc}>ANNULER</span>
                                     </div>
                                     <div className="note">
                                         <h2>Noter</h2>
                                         <div className="note-btn">
-                                            <span>1</span>
-                                            <span>2</span>
-                                            <span>3</span>
-                                            <span>4</span>
-                                            <span>5</span>
+                                        {[1, 2, 3, 4, 5].map((rating) => (
+                                            <span key={rating} onClick={() => handleRatingClick(rating)}>
+                                                {rating}
+                                            </span>
+                                        ))}
                                         </div>
                                     </div>
                                 </div>
