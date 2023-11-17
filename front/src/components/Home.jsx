@@ -219,6 +219,8 @@ export default function Home() {
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
+
+        window.location.reload();
     };
     
     moment.locale('fr');
@@ -468,13 +470,14 @@ export default function Home() {
                     )}
                 </div>
                 <div className="h2">
-                    <h2>JEUX RECOMMENDES</h2>
+                    <h2>JEUX RECOMMANDÉS</h2>
                 </div>
                 <div className="btn-carou">
-                    <div onClick={handlePrev}>
+                    <div onClick={handlePrev} style={{ visibility: currentIndex > 1 ? 'visible' : 'hidden' }}>
                         <ArrowBackIosIcon />
                     </div>
-                    <div onClick={handleNext}>
+
+                    <div onClick={handleNext} style={{ visibility: currentIndex < 3 ? 'visible' : 'hidden' }}>
                         <ArrowForwardIosIcon />
                     </div>
                 </div>
@@ -495,11 +498,11 @@ export default function Home() {
                 </div>
                 <div className="container">
                     <div className="h2">
-                        <h2>RECEMMENT AJOUTES</h2>
+                        <h2>RÉCEMMENT AJOUTÉS</h2>
                     </div>
                     <div className="cards"  id='filter-row'>
                         {jeuxAdded.slice(0, 7).map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
+                            <div key={index}className="card" onClick={() => handleGameClickAdded(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
                                 </div>
