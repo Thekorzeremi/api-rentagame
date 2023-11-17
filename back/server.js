@@ -16,9 +16,6 @@ const pool = mariadb.createPool({
     password: process.env.DB_PWD,
 })
 
-// Declaring const to use LocalStorage
-const ls = localStorage;
-
 // Using CORS, EXPRESS
 app.use(express.json());
 app.use(cors());
@@ -42,6 +39,19 @@ app.get('/jeux', async (req, res) => {
     }
 })
 
+app.post('/jeux', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('INSERT INTO Jeux () VALUES ?', [
+        ]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' })
+    }
+})
+
 // GET request to display specific game
 app.get('/jeux/:id', async (req, res) => {
     const id = req.params.id;
@@ -54,6 +64,19 @@ app.get('/jeux/:id', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.delete('/jeux/:id', async (req, res) => {
+    const id = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('DELETE FROM Jeux WHERE id = ?', [id]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur '});
     }
 });
 
