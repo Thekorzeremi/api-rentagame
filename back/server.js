@@ -1,13 +1,11 @@
-// Declaration of const used by server
 const express = require("express");
 const mariadb = require("mariadb");
 const bcrypt = require('bcryptjs');
-const cors = require("cors"); // CORS needed to use API
+const cors = require("cors");
 require('dotenv').config();
-const app = express()
+const app = express();
 const port = process.env.PORT || 3000;
 
-// Declaring pool to link DB
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
@@ -16,89 +14,107 @@ const pool = mariadb.createPool({
     password: process.env.DB_PWD,
 });
 
-
-// Using CORS, EXPRESS
 app.use(express.json());
 app.use(cors());
 
-// Root GET request displaying a cool message
-app.get('/', (req, res) => {
-    res.json('Hello la Team !')
-})
+let currentUserId = null;
+let currentGameId = null;
 
-// GET request to display games to WebPage
-app.get('/jeux', async (req, res) => {
+app.get('/', (req, res) => {
+    res.json('Hello la Team!');
+});
+
+app.get('/jeu', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Jeux');
+        const rows = await conn.query('SELECT * FROM Jeu');
         conn.release();
         res.status(200).json(rows);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
-
-app.post('/jeux', async (req, res) => {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query('INSERT INTO Jeux () VALUES ?', [
-        ]);
-        res.status(200).json(rows[0]);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erreur Serveur' })
-    }
-})
-
-// GET request to display specific game
-app.get('/jeux/:id', async (req, res) => {
-    const id = req.params.id;
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Jeux WHERE id = ?', [id]);
-        conn.release();
-        res.status(200).json(rows[0]);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ error: 'Erreur Serveur' });
     }
 });
 
-app.delete('/jeux/:id', async (req, res) => {
+app.post('/jeu', async (req, res) => {
+    try {
+        const { nom, note, prix, descr, image, type } = req.body;
+        const conn = await pool.getConnection();
+        const result = await conn.query('INSERT INTO Jeu (nom, note, prix, descr, image, type) VALUES (?, ?, ?, ?, ?, ?, ?)', [
+            nom, note, prix, descr, image, type
+        ]);
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.get('/jeu/:id', async (req, res) => {
     const id = req.params.id;
     let conn;
     try {
         conn = await pool.getConnection();
-        const rows = await conn.query('DELETE FROM Jeux WHERE id = ?', [id]);
+        const rows = await conn.query('SELECT * FROM Jeu WHERE idJeux = ?', [id]);
+        conn.release();
         res.status(200).json(rows[0]);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erreur Serveur '});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
     }
 });
 
-// POST request to log into the website
+app.put('/jeu/:id', async (req, res) => {
+    const id = req.params.id;
+    const { nom, note, prix, descr, image, type } = req.body;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(
+            'UPDATE Jeu SET nom = ?, note = ?, prix = ?, descr = ?, image = ?, type = ? WHERE idJeux = ?',
+            [nom, note, prix, descr, image, type, id]
+        );
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.delete('/jeu/:id', async (req, res) => {
+    const id = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('DELETE FROM Jeu WHERE idJeux = ?', [id]);
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
         const conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Utilisateurs WHERE email = ?', [email])
+        const rows = await conn.query('SELECT * FROM Utilisateur WHERE email = ?', [email])
         conn.release();
         if (rows.length > 0) {
             const user = rows[0];
-            ls.setItem("key1" , user.id);
             const match = await bcrypt.compare(password, user.pwd);
             if (match) {
+                currentUserId = user.id;
                 res.status(200).json({
                     id: user.id,
                     prenom: user.prenom,
                     email: user.email,
-                    message: 'Connexion réussie'}
-                )
+                    message: 'Connexion réussie'
+                });
             } else {
                 res.status(401).json('Données incorrectes');
             }
@@ -108,88 +124,107 @@ app.post('/login', async (req, res) => {
     } catch (error) {
         res.status(500).json('Erreur inconnue');
     }
-})
+});
 
-// GET request to display all user rent
-app.get('/rent', async (req,res) => {
+app.get('/emprunt', async (req, res) => {
     let conn;
-    const userId = ls.getItem("key1");
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('SELECT * FROM Louer WHERE id_2 = ?', [userId]);
+        const result = await conn.query('SELECT * FROM Emprunt WHERE idUser = ?', [currentUserId]);
         res.status(200).json(result);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Erreur Serveur' });
-    }
-})
-
-// POST request to add a rent
-app.post('/rent', async (req,res) => {
-    let conn;
-    const userId = ls.getItem("key1");
-    try {
-        conn = await pool.getConnection();
-        const result = await conn.query('INSERT INTO Louer (comment, date_emprunt, date_retour, id_1, id_2) VALUES (?, ?, ?, ?, ?)', [
-            req.comment,
-            req.date_emprunt,
-            req.date_retour,
-            req.id_1, // Current Game to select
-            userId,
-        ]
-        )
-        res.status(200).json(result);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Erreur Serveur' });
-    }
-})
-
-app.delete('/rent/:id', async (req,res) => {
-    let conn;
-    const id = req.params.id;
-    try {
-        conn = await pool.getConnection();
-        const result = await conn.query('DELETE FROM Louer WHERE id = ?', [
-            id
-        ]);
-        res.status(200).json(rows[0]);
-    } catch (error) {
-        res.status(500).json({ error: 'Erreur Serveur' });
-    }
-})
-
-// GET request to display all users
-app.get('/utilisateurs', async (req, res) => {
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Utilisateurs');
-        conn.release();
-        res.status(200).json(rows);
-    }
-    catch (err) {
-        console.log(err);
-    }
-})
-
-// GET request to display specific user
-app.get('/utilisateurs/:id', async (req, res) => {
-    const id = ls.getItem("key1");
-    let conn;
-    try {
-        conn = await pool.getConnection();
-        const rows = await conn.query('SELECT * FROM Utilisateurs WHERE id = ?', [id]);
-        conn.release();
-        res.status(200).json(rows[0]);
-    } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ error: 'Erreur Serveur' });
     }
 });
 
-// POST request to register a new user
-app.post('/utilisateurs', async (req, res) => {
+app.post('/emprunt', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('INSERT INTO Emprunt (date_emprunt, date_retour, idJeux, idUser) VALUES (?, ?, ?, ?)', [
+            req.date_emprunt,
+            req.date_retour,
+            req.idJeux, 
+            currentUserId,
+        ]);
+        res.status(200).json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.get('/emprunt/:id', async (req, res) => {
+    let conn;
+    const id = req.params.id;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('SELECT * FROM Emprunt WHERE idLoc = ?', [id]);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.put('/emprunt/:id', async (req, res) => {
+    const id = req.params.id;
+    const { date_emprunt, date_retour, idJeux } = req.body;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(
+            'UPDATE Emprunt SET date_emprunt = ?, date_retour = ?, idJeux = ? WHERE idLoc = ?',
+            [date_emprunt, date_retour, idJeux, id]
+        );
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.delete('/emprunt/:id', async (req, res) => {
+    let conn;
+    const id = req.params.id;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('DELETE FROM Emprunt WHERE idLoc = ?', [id]);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.get('/utilisateur', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('SELECT * FROM utilisateur');
+        conn.release();
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.get('/utilisateur/:id', async (req, res) => {
+    const id = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('SELECT * FROM utilisateur WHERE idUser = ?', [id]);
+        conn.release();
+        res.status(200).json(rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.post('/utilisateur', async (req, res) => {
     const newUser = req.body;
     let conn;
     try {
@@ -212,20 +247,113 @@ app.post('/utilisateurs', async (req, res) => {
     }
 });
 
-// DELETE request to delete user
-app.delete('/utilisateurs/:id', async (req, res) => {
+app.put('utilisateur/:id', async (req,res) => {
+    const id = req.params.id;
+    const { pseudo, email, pwd } = req.body;
+
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(
+            'UPDATE Utilisateur SET pseudo = ?, email = ?, pwd = ? WHERE idUser = ?',
+            [pseudo, email, pwd, id]
+        );
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
+
+app.delete('/utilisateur/:id', async (req, res) => {
     const id = req.params.id;
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('DELETE FROM Utilisateurs WHERE id = ?', [id]);
+        const result = await conn.query('DELETE FROM utilisateur WHERE idUser = ?', [id]);
         conn.release();
         res.status(200).json({ message: 'Utilisateur supprimée' });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(500).json({ error: 'Erreur Serveur' });
     }
 });
 
+app.get('/comment', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('SELECT * FROM Commentaire');
+        conn.release();
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
 
-app.listen(port, () => console.log(`Le serveur écoute sur : http:localhost:${port}`))
+app.get('/comment/:jeu/:id', async (req, res) => {
+    const id = req.params.id;
+    const jeu = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('SELECT * FROM Commentaire WHERE idCom = ? AND idJeux = ?', [id, jeu]);
+        conn.release();
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
+
+app.post('/comment/:jeu', async (req, res) => {
+    const currentGameId =  req.params.jeu;
+    const newCom = req.body;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('INSERT INTO Commentaire (comment, idJeux, idUser) VALUES (?,?,?)', [
+            newCom.comment,
+            currentGameId,
+            currentUserId
+        ]);
+        conn.release();
+        res.status(200).json({ result })
+    } catch (err) {
+        res.status(500).json(err);
+    }
+
+})
+
+app.delete('/comment/:id', async (req,res) => {
+    const id = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('DELETE FROM Commentaire WHERE idCom = ?', [id]);
+        conn.release();
+        res.status(200).json({ message: 'Commentaire supprimé' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur Serveur'});
+    }
+})
+
+app.put('/comment/:jeu/:id', async (req,res) => {
+    const id = req.params.id;
+    const jeu = req.params.jeu;
+    const com = req.body;
+    let conn;
+    try {
+        const conn = await pool.getConnection();
+        const result = await conn.query(
+            'UPDATE Commentaire SET comment = ? WHERE idCom = ? AND idJeux = )',
+            [com, id, jeu]        );
+        conn.release();
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
+
+app.listen(port, () => console.log(`Le serveur écoute sur : http://localhost:${port}`));
