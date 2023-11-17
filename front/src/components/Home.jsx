@@ -17,6 +17,8 @@ export default function Home() {
     const [com, setCom] = useState([]);
     const [loc, setLoc] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex2, setCurrentIndex2] = useState(0);
+    const [currentIndex3, setCurrentIndex3] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [selectedGame, setSelectedGame] = useState(false);
@@ -110,6 +112,22 @@ export default function Home() {
     
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 2));
+    };
+
+    const handleNext2 = () => {
+        setCurrentIndex2((prevIndex) => prevIndex + 7);
+    };
+    
+    const handlePrev2 = () => {
+        setCurrentIndex2((prevIndex) => Math.max(0, prevIndex - 7));
+    };
+
+    const handleNext3 = () => {
+        setCurrentIndex3((prevIndex) => prevIndex + 7);
+    };
+    
+    const handlePrev3 = () => {
+        setCurrentIndex3((prevIndex) => Math.max(0, prevIndex - 7));
     };
 
     const handleLoginClick = () => {
@@ -591,8 +609,17 @@ export default function Home() {
                                 <div className="h2">
                                     <h2>RECENTLY ADDED</h2>
                                 </div>
+                                    <div className="btn-carou">
+                                        <div onClick={handlePrev2} style={{ visibility: currentIndex2 > 1 ? 'visible' : 'hidden' }}>
+                                            <ArrowBackIosIcon />
+                                        </div>
+
+                                        <div onClick={handleNext2} style={{ visibility: currentIndex2 < 2 ? 'visible' : 'hidden' }}>
+                                            <ArrowForwardIosIcon />
+                                        </div>
+                                    </div>
                                 <div className="cards"  id='filter-row'>
-                                        {jeuxAdded.slice(0, 7).map((jeu, index) => (
+                                        {jeuxAdded.slice(currentIndex2, currentIndex2 + 7).map((jeu, index) => (
                                         <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                             <div className="image">
                                                 <img src={jeu.image} alt="" />
@@ -614,8 +641,17 @@ export default function Home() {
                                     <div className="h2">
                                         <h2>MOST POPULAR</h2>
                                     </div>
+                                    <div className="btn-carou">
+                                        <div onClick={handlePrev3} style={{ visibility: currentIndex3 > 1 ? 'visible' : 'hidden' }}>
+                                            <ArrowBackIosIcon />
+                                        </div>
+
+                                        <div onClick={handleNext3} style={{ visibility: currentIndex3 < 2 ? 'visible' : 'hidden' }}>
+                                            <ArrowForwardIosIcon />
+                                        </div>
+                                    </div>
                                         <div className="cards" id='filter-row'>
-                                            {jeuxNote.slice(0, 7).map((jeu, index) => (
+                                            {jeuxNote.slice(currentIndex3, currentIndex3 + 7).map((jeu, index) => (
                                                 <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                                     <div className="image">
                                                         <img src={jeu.image} alt="" />
