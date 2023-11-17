@@ -52,7 +52,7 @@ VALUES
 ('5', 'Forza Horizon 5', 4.2, 35.99, 'Racing adventure', 'https://theouterhaven.b-cdn.net/wp-content/uploads/2021/08/E4HHJZkXMAswau7.jpg', 'Racing'),
 ('6', 'Sims 4', 4.5, 19.99, 'Create your world', 'https://static.fnac-static.com/multimedia/Images/FR/NR/f8/d1/52/5427704/1507-1/tsp20221215193634/Les-Sims-4-Edition-Limitee-PC.jpg', 'Simulation'),
 ('7', 'Fifa 22', 3.2, 24.99, 'Live football', 'https://mms.businesswire.com/media/20210711005018/en/890552/4/EAS_FIFA22_GEN5.jpg', 'Sport'),
-('8', 'Call Of Duty GHOST', 2.9, 5.99, 'Kill enemies', 'https://c4.wallpaperflare.com/wallpaper/338/244/838/call-of-duty-ghosts-video-games-call-of-duty-wallpaper-preview.jpg', 'FPS');
+('8', 'Call Of Duty GHOST', 2.9, 5.99, 'Kill enemies', 'https://cdn-products.eneba.com/resized-products/KRXZljO_350x200_1x-0.jpg', 'FPS');
 
 INSERT INTO Utilisateur (idUser, pseudo, email, pwd)
 VALUES 
