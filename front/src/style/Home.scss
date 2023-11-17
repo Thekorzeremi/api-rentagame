@@ -8,6 +8,15 @@
         overflow-y: scroll;
         overflow-x: hidden;
         max-height: 100vh;
+
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--color-gray);
+            border-radius: 10px;
+        }
     }
 
     .header {
@@ -385,16 +394,114 @@
     
             .image {
                 height: 92vh;
-                width: 30vw;
+                width: 35vw;
     
                 img {
                     height: 100%;
+                    width: 100%;
                 }
             }
     
             .details {
                 width: 30vw;
                 margin: 0 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .info {
+                    height: 50vh;
+
+                    .title {
+                        height: 5rem;
+                        
+                        h2 {
+                            font-size: 3rem;
+                            
+                        }
+                    }
+                    
+                    .content {
+                        height: auto;
+                        width: auto;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        h2 {
+                            width: 100%;
+                        } 
+                        
+                        p {
+                            margin: 1.5rem 0;
+                            width: 100%;
+                            font-size: 1.3rem;
+                        }
+
+                        .more {
+                            width: 80%;
+                            display: flex;
+                            justify-content: space-between;
+
+                            &>div {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+
+                                h2 {
+                                    width: auto;
+                                }
+
+                                p {
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .action {
+                    height: 18vh;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .loc {
+                        display: flex;
+                        justify-content: space-between;
+                        
+                        span {
+                            background-color: var(--color-box);
+                            width: 40%;
+                            height: 3rem;
+                            display: grid;
+                            place-items: center;
+                            border-radius: 2rem;
+                            cursor: pointer;
+                            transition: all .2s ease-in-out;
+
+                            &:hover {
+                                background-color: var(--color-box-hover);
+                            }
+                        }
+                    }
+                }
+
+                .note-btn  {
+                    display: flex;
+                    justify-content: space-around;
+
+                    span {
+                        font-size: 2rem;
+                        cursor: pointer;
+                        transition: all .2s ease-in-out;
+
+                        &:hover {
+                            color: var(--color-gray);
+                            transform: scale(1.1);
+                        }
+                    }
+                }
             }
     
             .avis {
@@ -410,6 +517,15 @@
                 .comments {
                     max-height: 82vh;
                     overflow-y: auto;
+
+                    &::-webkit-scrollbar {
+                        width: 5px;
+                    }
+                    
+                    &::-webkit-scrollbar-thumb {
+                        background-color: var(--color-gray);
+                        border-radius: 10px;
+                    }
     
                     .row-comment {
                         background-color: var(--color-box);
@@ -424,6 +540,13 @@
     
                         .text {
                             margin: 0 1rem 1rem 1rem;
+                        }
+
+                        .date {
+                            text-align: end;
+                            font-size: .7rem;
+                            margin-right: .5rem;
+                            padding-bottom: .7rem;
                         }
                     }
                 }

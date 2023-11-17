@@ -6,11 +6,13 @@ import '../style/Home.scss';
 
 export default function Home() {
     const [jeux, setJeux] = useState([]);
+    const [jeuxNote, setJeuxNote] = useState([]);
+    const [jeuxAdded, setJeuxAdded] = useState([]);
     const [user, setUser] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
-    const [selectedGame, setSelectedGame] = useState(true);
+    const [selectedGame, setSelectedGame] = useState(false);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -28,6 +30,26 @@ export default function Home() {
 
         fetchJeux();
     }, []);
+
+    useEffect(() => {
+        const sortJeux = () => {
+            const jeuxArray = [...jeux];
+            jeuxArray.sort((a, b) => b.note - a.note);
+            setJeuxNote(jeuxArray);
+        };
+
+        sortJeux();
+    }, [jeux]);
+
+    useEffect(() => {
+        const sortJeux = () => {
+            const jeuxArray = [...jeux];
+            jeuxArray.sort((a, b) => b.id - a.id);
+            setJeuxAdded(jeuxArray);
+        };
+
+        sortJeux();
+    }, [jeux]);
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
@@ -57,13 +79,20 @@ export default function Home() {
         setSelectedGame(jeux[currentIndex + index]);
     };
 
+    const handleGameClickRating = (index) => {
+        setSelectedGame(jeuxNote[currentIndex + index]);
+    };
+
+    const handleGameClickAdded = (index) => {
+        setSelectedGame(jeuxAdded[currentIndex + index]);
+    };
+
     const closeGamePopup = () => {
         setSelectedGame(null);
     };
 
     return (
         <div className='content'>
-            
             <div className="container-page">
                 {isLogin && (
                     <div className="login-popup">
@@ -125,16 +154,30 @@ export default function Home() {
                                     <div className="title">
                                         <h2>{selectedGame.nom}</h2>
                                     </div>
-                                    <p>{selectedGame.descr}</p>
-                                    <p>Price: {selectedGame.prix}$</p>
-                                    <p>Rating: {selectedGame.note}</p>
+                                    <div className="content">
+                                        <h2>Genre</h2>
+                                        <p>{selectedGame.descr}</p>
+                                        <h2>Resume</h2>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel venenatis enim, maximus interdum magna. Etiam sit amet sollicitudin dolor. Pellentesque sagittis, lacus eu interdum porttitor, massa ex consectetur dolor, eu vestibulum leo quam sed viverra.</p>
+                                        <div className="more">
+                                            <div>
+                                                <h2>Prix</h2>
+                                                <p>{selectedGame.prix}$</p>
+                                            </div>
+                                            <div>
+                                                <h2>Rating</h2>
+                                                <p>{selectedGame.note}</p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="action">
                                     <div className="loc">
                                         <span>LOUER</span>
+                                        <span>CANCEL</span>
                                     </div>
                                     <div className="note">
-                                        <span>NOTER</span>
+                                        <h2>NOTER</h2>
                                         <div className="note-btn">
                                             <span>1</span>
                                             <span>2</span>
@@ -157,6 +200,9 @@ export default function Home() {
                                         <div className="text">
                                             <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
                                         </div>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
+                                        </div>
                                     </div>
                                     <div className="row-comment">
                                         <div className="author">
@@ -165,13 +211,8 @@ export default function Home() {
                                         <div className="text">
                                             <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qar re za raz raz rzr a r er ra raeasdf qsdf f sq</span>
                                         </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
                                         </div>
                                     </div>
                                     <div className="row-comment">
@@ -181,13 +222,8 @@ export default function Home() {
                                         <div className="text">
                                             <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
                                         </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
                                         </div>
                                     </div>
                                     <div className="row-comment">
@@ -197,13 +233,8 @@ export default function Home() {
                                         <div className="text">
                                             <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
                                         </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
                                         </div>
                                     </div>
                                     <div className="row-comment">
@@ -212,6 +243,42 @@ export default function Home() {
                                         </div>
                                         <div className="text">
                                             <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        </div>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
+                                        </div>
+                                    </div>
+                                    <div className="row-comment">
+                                        <div className="author">
+                                            <span>NAME</span>
+                                        </div>
+                                        <div className="text">
+                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        </div>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
+                                        </div>
+                                    </div>
+                                    <div className="row-comment">
+                                        <div className="author">
+                                            <span>NAME</span>
+                                        </div>
+                                        <div className="text">
+                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        </div>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
+                                        </div>
+                                    </div>
+                                    <div className="row-comment">
+                                        <div className="author">
+                                            <span>NAME</span>
+                                        </div>
+                                        <div className="text">
+                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                        </div>
+                                        <div className="date">
+                                            <span>22 noveembre 2023 14:30</span>
                                         </div>
                                     </div>
                                 </div>
@@ -223,21 +290,21 @@ export default function Home() {
                     </div>
                 )}
                 <div className="header">
-                <div className="logo">
-                    <span>SCAM</span>
-                </div>
-                <div className="searchbar">
-                    <input type="text" placeholder="Recherche"/>
-                </div>
-                <div className="login-btn">
-                    <div className="login" onClick={handleLoginClick}>
-                        <span>LOGIN</span>
+                    <div className="logo">
+                        <span>SCAM</span>
                     </div>
-                    <div className="register" onClick={handleRegisterClick}>
-                        <span>REGISTER</span>
+                    <div className="searchbar">
+                        <input type="text" placeholder="Recherche"/>
+                    </div>
+                    <div className="login-btn">
+                        <div className="login" onClick={handleLoginClick}>
+                            <span>LOGIN</span>
+                        </div>
+                        <div className="register" onClick={handleRegisterClick}>
+                            <span>REGISTER</span>
+                        </div>
                     </div>
                 </div>
-            </div>
                 <div className="h2">
                     <h2>RECOMMENDED GAMES</h2>
                 </div>
@@ -250,8 +317,8 @@ export default function Home() {
                 </div>
                 <div className="carousel">
                     <div className="cards">
-                    {jeux.slice(currentIndex, currentIndex + 2).map((jeu, index) => (
-                        <div key={index} className="card" onClick={() => handleGameClick(index)}>
+                    {jeuxNote.slice(currentIndex, currentIndex + 2).map((jeu, index) => (
+                        <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                             <img src={jeu.image} alt="" />
                             <div className="title">
                                 <span>{jeu.nom}</span>
@@ -268,8 +335,8 @@ export default function Home() {
                         <h2>RECENTLY ADDED</h2>
                     </div>
                     <div className="cards">
-                        {jeux.map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
+                        {jeuxAdded.map((jeu, index) => (
+                            <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
                                 </div>
@@ -291,8 +358,8 @@ export default function Home() {
                         <h2>MOST POPULAR</h2>
                     </div>
                     <div className="cards">
-                        {jeux.map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
+                        {jeuxNote.map((jeu, index) => (
+                            <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
                                 </div>
@@ -315,7 +382,7 @@ export default function Home() {
                     </div>
                     <div className="cards">
                         {jeux.map((jeu, index) => (
-                            <div key={index} className="card" onClick={() => handleGameClick(index - 2)}>
+                            <div key={index} className="card" onClick={() => handleGameClick(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
                                 </div>
