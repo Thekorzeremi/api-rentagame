@@ -14,7 +14,8 @@ const pool = mariadb.createPool({
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PWD,
-})
+});
+
 
 // Using CORS, EXPRESS
 app.use(express.json());
