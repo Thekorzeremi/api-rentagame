@@ -65,7 +65,7 @@
         .login-btn {
             display: flex;
             justify-content: space-between;
-            width: 10rem;
+            width: 15rem;
     
             &:nth-child(1n) {
                 cursor: pointer;
@@ -440,7 +440,7 @@
                 justify-content: space-between;
 
                 .info {
-                    height: 50vh;
+                    height: 60vh;
 
                     .title {
                         height: 5rem;
@@ -515,6 +515,25 @@
                             }
                         }
                     }
+
+                }
+                
+                .state-true, .state-false {
+                    height: 8vh;
+                    border-radius: 10px;
+                    display: grid;
+                    place-items: center;
+                    font-size: 1.2rem;
+                }
+
+                .state-false {
+                    border: 2px solid rgb(255, 118, 118);
+                    background-color: rgba(220, 140, 140, 0.708);
+                }
+
+                .state-true {
+                    border: 2px solid rgb(147, 220, 140);
+                    background-color: rgba(147, 220, 140, 0.708);
                 }
 
                 .note-btn  {

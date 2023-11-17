@@ -130,7 +130,7 @@ app.get('/emprunt', async (req, res) => {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('SELECT * FROM Emprunt WHERE idUser = ?', [currentUserId]);
+        const result = await conn.query('SELECT * FROM Emprunt');
         res.status(200).json(result);
     } catch (err) {
         console.error(err);
