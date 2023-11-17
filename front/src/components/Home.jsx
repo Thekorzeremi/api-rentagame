@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../style/Home.scss';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import CloseIcon from '@mui/icons-material/Close';
+import SearchIcon from '@mui/icons-material/Search';
 
 export default function Home() {
     const [jeux, setJeux] = useState([]);
@@ -128,7 +130,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeLoginPopup}>
-                                Close
+                                <CloseIcon />
                             </div>
                         </div>
                     </div>
@@ -154,7 +156,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeRegisterPopup}>
-                                Close
+                                <CloseIcon />
                             </div>
                         </div>
                     </div>
@@ -313,16 +315,19 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeGamePopup}>
-                                Close
+                                <CloseIcon />
                             </div>
                         </div>
                     </div>
                 )}
                 <div className="header">
                     <div className="logo">
-                        <span>SCAM</span>
+                        <span>SC<span className='primary'>@</span>M<span className='primary'>3</span>RZ</span>
                     </div>
                     <div className="searchbar">
+                        <div className="img">
+                            <SearchIcon  style={{ fontSize: '1.8rem' }}/>
+                        </div>
                         <input type="text" placeholder="Recherche"/>
                     </div>
                     <div className="login-btn">

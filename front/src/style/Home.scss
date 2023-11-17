@@ -30,11 +30,16 @@
         .logo {
             width: 10rem;
             cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
     
         .searchbar {
+            position: relative;
             width: 35rem;
             height: 2.5rem;
+            display: flex;
+            align-items: center;
     
             input {
                 height: 100%;
@@ -42,8 +47,18 @@
                 border-radius: 2rem;
                 border: none;
                 outline: none;
-                padding: 0 2rem;
+                padding: 0 2.5rem;
                 font-size: 1.2rem;
+                color: var(--color-box);
+            }
+
+            .img {
+                position: absolute;
+                margin-top: .3rem;
+                left: .5rem;
+                &:first-child {
+                    color: var(--color-box);
+                }
             }
         }
     
@@ -54,6 +69,14 @@
     
             &:nth-child(1n) {
                 cursor: pointer;
+            }
+
+            span {
+                transition: all .1s ease-in-out;
+
+                &:hover {
+                    color: var(--color-primary);
+                }
             }
         }
     }
@@ -72,9 +95,10 @@
             margin: 0 1rem;
             cursor: pointer;
             font-weight: 700;
+            transition: all .1s ease-in-out;
             
             &:hover {
-                color: var(--color-gray);
+                color: var(--color-primary);
             }
         }
     }
@@ -531,11 +555,12 @@
                         background-color: var(--color-box);
                         width: auto;
                         margin: 1rem;
-                        min-height: 7rem;
+                        min-height: 8rem;
                         border-radius: 5px;
     
                         .author {
                             margin: 1rem;
+                            padding-top: .7rem;
                         }
     
                         .text {
