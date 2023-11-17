@@ -641,7 +641,7 @@ export default function Home() {
                     </div>
                     {!search && (
                         <div className="cards">
-                            {jeux.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                            {jeux.map((jeu, index) => (
                                 <div key={index} className="card" onClick={() => handleGameClick(index)}>
                                     <div className="image">
                                         <img src={jeu.image} alt="" />
@@ -663,7 +663,7 @@ export default function Home() {
                     )}
                     <div className="cards">
                         {search &&
-                            searchResults.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                            searchResults.map((jeu, index) => (
                                 <div key={index} className="card" onClick={() => handleGameClickSearch(index)}>
                                     <div className="image">
                                         <img src={jeu.image} alt="" />
