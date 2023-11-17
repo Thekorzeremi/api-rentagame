@@ -3,7 +3,7 @@ CREATE DATABASE loc;
 USE loc;
 
 CREATE TABLE Jeu (
-   idJeux VARCHAR(50),
+   idJeux INT AUTO_INCREMENT,
    nom VARCHAR(80),
    note DECIMAL(2,1),
    prix DECIMAL(4,2),
@@ -14,7 +14,7 @@ CREATE TABLE Jeu (
 );
 
 CREATE TABLE Utilisateur (
-   idUser VARCHAR(50),
+   idUser INT AUTO_INCREMENT,
    pseudo VARCHAR(16),
    email VARCHAR(50),
    pwd VARCHAR(255),
@@ -22,7 +22,7 @@ CREATE TABLE Utilisateur (
 );
 
 CREATE TABLE Emprunt (
-   idLoc VARCHAR(50),
+   idLoc INT AUTO_INCREMENT,
    date_emprunt DATETIME,
    date_retour DATETIME,
    idJeux VARCHAR(50) NOT NULL,

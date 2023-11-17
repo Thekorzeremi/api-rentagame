@@ -18,6 +18,9 @@ export default function Home() {
     const [selectedGame, setSelectedGame] = useState(false);
     const [comment, setComment] = useState('');
     const [isConnected, setIsConnected] = useState(false);
+    const [pseudo, setPseudo] = useState('');
+    const [email, setEmail] = useState('');
+    const [pwd, setPwd] = useState('');
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -114,6 +117,35 @@ export default function Home() {
         console.log('Le commentaire "', comment, '" a été envoyé !');
     };
 
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        let state = true;
+        try {
+            const check = await axios.get('http://localhost:3000/utilisateur');
+            for (let i = 0; i < check.data.length -1; i++ ) {
+                if (check.data[i].email === email) {
+                    state = false;
+                }
+            }
+            if (state) {
+                const newUser = {
+                    pseudo: pseudo,
+                    email: email,
+                    pwd: pwd,
+                }
+                const res = await axios.post('http://localhost:3000/utilisateur', newUser);
+            } else {
+                console.log('Le compte existe déjà');
+            }
+        } catch (error) {
+            console.error('Erreur durant la création du compte :', error);
+        }
+    }
+
+    const handleLogin = () => {
+
+    }
+
     return (
         <div className='content'>
             <div className="container-page">
@@ -148,16 +180,16 @@ export default function Home() {
                             </div>
                             <div className="form">
                                 <div className="pseudo">
-                                    <input type="text" placeholder='Pseudo' required/>
+                                    <input type="text" placeholder='Pseudo' onChange={(e)=> setPseudo(e.target.value)} required/>
                                 </div>
                                 <div className="email">
-                                    <input type="text" placeholder='Email' required/>
+                                    <input type="text" placeholder='Email' onChange={(e)=> setEmail(e.target.value)} required/>
                                 </div>
                                 <div className="password">
-                                    <input type="password"placeholder='Password' required/>
+                                    <input type="password"placeholder='Password' onChange={(e)=> setPwd(e.target.value)} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={closeRegisterPopup}>SUBMIT</span>
+                                    <span onClick={handleRegister}>SUBMIT</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeRegisterPopup}>

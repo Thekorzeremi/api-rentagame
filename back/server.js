@@ -231,13 +231,13 @@ app.post('/utilisateur', async (req, res) => {
         conn = await pool.getConnection();
 
         const hashedPassword = await bcrypt.hash(newUser.pwd, 10);
-
+        
         const result = await conn.query('INSERT INTO utilisateur (pseudo, email, pwd) VALUES (?, ?, ?)', [
             newUser.pseudo,
             newUser.email,
             hashedPassword
         ]);
-
+        
         const insertedUserId = result.insertId.toString();
         conn.release();
         res.status(201).json({ insertedUserId });
