@@ -287,9 +287,12 @@ export default function Home() {
             idJeux: selectedGame.idJeux,
             idUser: ls.getItem("key1"),
         };
+
+        console.log(newLoc);
     
         try {
             const res = await axios.post(`http://localhost:3000/emprunt`, newLoc);
+            console.log(res);
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
