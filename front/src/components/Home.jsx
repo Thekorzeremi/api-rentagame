@@ -306,7 +306,7 @@ export default function Home() {
                     <div className="h2">
                         <h2>RECENTLY ADDED</h2>
                     </div>
-                    <div className="cards">
+                    <div className="cards"  id='filter-row'>
                         {jeuxAdded.map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                 <div className="image">
@@ -329,7 +329,7 @@ export default function Home() {
                     <div className="h2">
                         <h2>MOST POPULAR</h2>
                     </div>
-                    <div className="cards">
+                    <div className="cards" id='filter-row'>
                         {jeuxNote.map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                 <div className="image">
