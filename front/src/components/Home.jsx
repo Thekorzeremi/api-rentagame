@@ -128,7 +128,6 @@ export default function Home() {
             console.error('No game selected');
             return;
         }
-        console.log(selectedGame)
 
         const newComment = {
             comment: comment,
@@ -136,14 +135,39 @@ export default function Home() {
             idJeux: selectedGame.idJeux,
             idUser: ls.getItem("key1"),
         };
-
-        console.log(newComment);
     
         try {
             const res = await axios.post(`http://localhost:3000/comment`, newComment);
             console.log(res);
             setCom((prevComments) => [...prevComments, { ...newComment, pseudo: ls.getItem("key2") }]);
             setComment('');
+        } catch (error) {
+            console.error('Erreur lors de la publication de l\'article :', error);
+        }
+    };
+
+    const handleSubmitLoc = async (e) => {
+        e.preventDefault();
+    
+        if (!selectedGame) {
+            console.error('No game selected');
+            return;
+        }
+        console.log(selectedGame)
+
+        const newLoc = {
+            date_emprunt: moment().format('YYYY-MM-DD HH:mm:ss'),
+            date_retour: moment().add(24, 'hours').format('YYYY-MM-DD HH:mm:ss'),
+            idJeux: selectedGame.idJeux,
+            idUser: ls.getItem("key1"),
+        };
+          
+
+        console.log(newLoc);
+    
+        try {
+            const res = await axios.post(`http://localhost:3000/emprunt`, newLoc);
+            console.log(res);
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
@@ -296,7 +320,7 @@ export default function Home() {
                                 </div>
                                 <div className="action">
                                     <div className="loc">
-                                        <span>LOUER</span>
+                                        <span onClick={handleSubmitLoc}>LOUER</span>
                                         <span>CANCEL</span>
                                     </div>
                                     <div className="note">
@@ -412,7 +436,7 @@ export default function Home() {
                         <h2>RECENTLY ADDED</h2>
                     </div>
                     <div className="cards"  id='filter-row'>
-                        {jeuxAdded.map((jeu, index) => (
+                        {jeuxAdded.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
@@ -435,7 +459,7 @@ export default function Home() {
                         <h2>MOST POPULAR</h2>
                     </div>
                     <div className="cards" id='filter-row'>
-                        {jeuxNote.map((jeu, index) => (
+                        {jeuxNote.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
@@ -458,7 +482,7 @@ export default function Home() {
                         <h2>ALL GAMES</h2>
                     </div>
                     <div className="cards">
-                        {jeux.map((jeu, index) => (
+                        {jeux.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClick(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />

@@ -139,21 +139,26 @@ app.get('/emprunt', async (req, res) => {
 });
 
 app.post('/emprunt', async (req, res) => {
+    const newLoc = req.body;
     let conn;
     try {
         conn = await pool.getConnection();
         const result = await conn.query('INSERT INTO Emprunt (date_emprunt, date_retour, idJeux, idUser) VALUES (?, ?, ?, ?)', [
-            req.date_emprunt,
-            req.date_retour,
-            req.idJeux, 
-            currentUserId,
+            newLoc.date_emprunt,
+            newLoc.date_retour,
+            newLoc.idJeux, 
+            newLoc.idUser,
         ]);
-        res.status(200).json(result);
+
+        const insertedNewLocId = result.insertId.toString();
+
+        res.status(200).json(insertedNewLocId);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Erreur Serveur' });
+        res.status(500).json({ error: 'Erreur Serveur', details: err.message });
     }
 });
+
 
 app.get('/emprunt/:id', async (req, res) => {
     let conn;
