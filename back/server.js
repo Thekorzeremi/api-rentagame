@@ -111,7 +111,7 @@ app.post('/login', async (req, res) => {
 })
 
 // GET request to display all user rent
-app.get('/louer', async (req,res) => {
+app.get('/rent', async (req,res) => {
     let conn;
     const userId = ls.getItem("key1");
     try {
@@ -141,6 +141,20 @@ app.post('/rent', async (req,res) => {
         res.status(200).json(result);
     } catch (err) {
         console.log(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
+
+app.delete('/rent/:id', async (req,res) => {
+    let conn;
+    const id = req.params.id;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('DELETE FROM Louer WHERE id = ?', [
+            id
+        ]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
         res.status(500).json({ error: 'Erreur Serveur' });
     }
 })
