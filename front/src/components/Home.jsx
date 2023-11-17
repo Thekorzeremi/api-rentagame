@@ -23,6 +23,7 @@ export default function Home() {
     const [pseudo, setPseudo] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
+    const [search, setSearch] = useState([]);
     const [loginData, setLoginData] = useState({email: '',password: ''});
     const [isLoggedIn, setLoggedIn] = useState(true);
 
@@ -73,7 +74,7 @@ export default function Home() {
     }, [jeux]);
 
     const ls = localStorage;
-
+    
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
     };
