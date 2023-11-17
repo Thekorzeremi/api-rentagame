@@ -2,6 +2,13 @@
     position: relative;
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
+
+    .container-page {
+        overflow-y: scroll;
+        overflow-x: hidden;
+        max-height: 100vh;
+    }
 
     .header {
         height: 5rem;
