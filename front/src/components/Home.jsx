@@ -228,6 +228,8 @@ export default function Home() {
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
+
+        window.location.reload();
     };
     
     moment.locale('fr');
@@ -477,13 +479,14 @@ export default function Home() {
                     )}
                 </div>
                 <div className="h2">
-                    <h2>JEUX RECOMMENDES</h2>
+                    <h2>JEUX RECOMMANDÉS</h2>
                 </div>
                 <div className="btn-carou">
-                    <div onClick={handlePrev}>
+                    <div onClick={handlePrev} style={{ visibility: currentIndex > 1 ? 'visible' : 'hidden' }}>
                         <ArrowBackIosIcon />
                     </div>
-                    <div onClick={handleNext}>
+
+                    <div onClick={handleNext} style={{ visibility: currentIndex < 3 ? 'visible' : 'hidden' }}>
                         <ArrowForwardIosIcon />
                     </div>
                 </div>
