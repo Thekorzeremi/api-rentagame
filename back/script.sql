@@ -31,7 +31,7 @@ CREATE TABLE Emprunt(
    UNIQUE(idJeux),
    UNIQUE(idUser),
    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
-   FOREIGN KEY(idUser) REFERENCES Utilisateurs(idUser)
+   FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
 CREATE TABLE Commentaire(
@@ -43,7 +43,7 @@ CREATE TABLE Commentaire(
    UNIQUE(idJeux),
    UNIQUE(idUser),
    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
-   FOREIGN KEY(idUser) REFERENCES Utilisateurs(idUser)
+   FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
 INSERT INTO Jeu (idJeux, nom, note, prix, descr, image, type)
