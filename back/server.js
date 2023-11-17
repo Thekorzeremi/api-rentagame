@@ -40,6 +40,19 @@ app.get('/jeux', async (req, res) => {
     }
 })
 
+app.post('/jeux', async (req, res) => {
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('INSERT INTO Jeux () VALUES ?', [
+        ]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur' })
+    }
+})
+
 // GET request to display specific game
 app.get('/jeux/:id', async (req, res) => {
     const id = req.params.id;
@@ -52,6 +65,19 @@ app.get('/jeux/:id', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Erreur Serveur' });
+    }
+});
+
+app.delete('/jeux/:id', async (req, res) => {
+    const id = req.params.id;
+    let conn;
+    try {
+        conn = await pool.getConnection();
+        const rows = await conn.query('DELETE FROM Jeux WHERE id = ?', [id]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erreur Serveur '});
     }
 });
 
@@ -85,7 +111,7 @@ app.post('/login', async (req, res) => {
 })
 
 // GET request to display all user rent
-app.get('/louer', async (req,res) => {
+app.get('/rent', async (req,res) => {
     let conn;
     const userId = ls.getItem("key1");
     try {
@@ -115,6 +141,20 @@ app.post('/rent', async (req,res) => {
         res.status(200).json(result);
     } catch (err) {
         console.log(err);
+        res.status(500).json({ error: 'Erreur Serveur' });
+    }
+})
+
+app.delete('/rent/:id', async (req,res) => {
+    let conn;
+    const id = req.params.id;
+    try {
+        conn = await pool.getConnection();
+        const result = await conn.query('DELETE FROM Louer WHERE id = ?', [
+            id
+        ]);
+        res.status(200).json(rows[0]);
+    } catch (error) {
         res.status(500).json({ error: 'Erreur Serveur' });
     }
 })
