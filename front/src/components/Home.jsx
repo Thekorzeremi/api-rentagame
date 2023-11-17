@@ -127,7 +127,6 @@ export default function Home() {
                 moment().isBetween(moment(location.date_emprunt), moment(location.date_retour))
         );
     
-    
         if (existingLoc) {
             setLocated(true);
         } else {
@@ -184,7 +183,6 @@ export default function Home() {
     
         try {
             const res = await axios.post(`http://localhost:3000/comment`, newComment);
-            console.log(res);
             setCom([...com, newComment]);
             setComment('')
         } catch (error) {
@@ -199,7 +197,6 @@ export default function Home() {
             console.error('No game selected');
             return;
         }
-        console.log(selectedGame)
 
         const newLoc = {
             date_emprunt: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -207,13 +204,9 @@ export default function Home() {
             idJeux: selectedGame.idJeux,
             idUser: ls.getItem("key1"),
         };
-          
-
-        console.log(newLoc);
     
         try {
             const res = await axios.post(`http://localhost:3000/emprunt`, newLoc);
-            console.log(res);
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
@@ -258,7 +251,6 @@ export default function Home() {
                 ls.setItem("key1", userData.id);
                 ls.setItem("key2", userData.pseudo);
                 ls.setItem("key3", userData.email);
-                console.log(ls.getItem("key2"));
                 console.log("connecté");
                 setIsConnected(true);
                 setIsLogin(false);
