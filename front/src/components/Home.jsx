@@ -292,7 +292,7 @@ export default function Home() {
                     <div className="login-popup">
                         <div className="container">
                             <div className="title">
-                                <h2>LOGIN</h2>
+                                <h2>Connexion</h2>
                             </div>
                             <div className="form">
                                 <div className="email">
@@ -302,7 +302,7 @@ export default function Home() {
                                     <input type="password"placeholder='Password' onChange={(e) => setLoginData({...loginData, password: e.target.value})} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={handleLogin}>SUBMIT</span>
+                                    <span onClick={handleLogin}>Envoyer</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeLoginPopup}>
@@ -315,7 +315,7 @@ export default function Home() {
                     <div className="register-popup">
                         <div className="container">
                             <div className="title">
-                                <h2>REGISTER</h2>
+                                <h2>Créer un compte</h2>
                             </div>
                             <div className="form">
                                 <div className="pseudo">
@@ -328,7 +328,7 @@ export default function Home() {
                                     <input type="password"placeholder='Password' onChange={(e)=> setPwd(e.target.value)} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={handleRegister}>SUBMIT</span>
+                                    <span onClick={handleRegister}>Envoyer</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeRegisterPopup}>
@@ -351,7 +351,7 @@ export default function Home() {
                                     <div className="content">
                                         <h2>Genre</h2>
                                         <p>{selectedGame.type}</p>
-                                        <h2>Resume</h2>
+                                        <h2>Description</h2>
                                         <p>{selectedGame.descr}</p>
                                         <div className="more">
                                             <div>
@@ -359,7 +359,7 @@ export default function Home() {
                                                 <p>{selectedGame.prix}$</p>
                                             </div>
                                             <div>
-                                                <h2>Rating</h2>
+                                                <h2>Notes</h2>
                                                 <p>{selectedGame.note}</p>
                                             </div>
                                         </div>
@@ -381,9 +381,9 @@ export default function Home() {
                                         <span onClick={handleSubmitLoc}>LOUER</span>
                                     )}
                                     {isLocated && (
-                                        <span >CAN'T LOUER</span>
+                                        <span >NE PEUT LOUER</span>
                                     )}
-                                        <span>CANCEL</span>
+                                        <span>ANNULER</span>
                                     </div>
                                     <div className="note">
                                         <h2>Noter</h2>
@@ -399,7 +399,7 @@ export default function Home() {
                             </div>
                             <div className="avis">
                                 <div className="title">
-                                    <h2>Comments</h2>
+                                    <h2>Commentaires</h2>
                                 </div>
                                 <div className="comments">
                                     {com
@@ -420,14 +420,14 @@ export default function Home() {
                                 </div>
                                 <div className="add-comments">
                                     <div className="add-comment">
-                                        <h3>ADD COMMENT</h3>
+                                        <h3>Ajouter un commentaire</h3>
                                         <textarea
                                             value={ comment }
                                             onChange={(e)=> setComment(e.target.value)}
                                             onKeyDown={ handleKeyDownEnter }
                                         />
                                         <div className="submit">
-                                            <span onClick={handleSubmitComment}>SUBMIT</span>
+                                            <span onClick={handleSubmitComment}>Envoyer</span>
                                         </div>
                                     </div>
                                 </div>
@@ -451,10 +451,10 @@ export default function Home() {
                     {!isConnected && (
                         <div className="login-btn">
                             <div className="login" onClick={handleLoginClick}>
-                                <span>LOGIN</span>
+                                <span>Connexion</span>
                             </div>
                             <div className="register" onClick={handleRegisterClick}>
-                                <span>REGISTER</span>
+                                <span>Créer un compte</span>
                             </div>
                         </div>
                     )}
@@ -468,7 +468,7 @@ export default function Home() {
                     )}
                 </div>
                 <div className="h2">
-                    <h2>RECOMMENDED GAMES</h2>
+                    <h2>JEUX RECOMMENDES</h2>
                 </div>
                 <div className="btn-carou">
                     <div onClick={handlePrev}>
@@ -495,10 +495,10 @@ export default function Home() {
                 </div>
                 <div className="container">
                     <div className="h2">
-                        <h2>RECENTLY ADDED</h2>
+                        <h2>RECEMMENT AJOUTES</h2>
                     </div>
                     <div className="cards"  id='filter-row'>
-                        {jeuxAdded.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                        {jeuxAdded.slice(0, 7).map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
@@ -518,10 +518,10 @@ export default function Home() {
                         ))}
                     </div>
                     <div className="h2">
-                        <h2>MOST POPULAR</h2>
+                        <h2>LES PLUS POPULAIRES</h2>
                     </div>
                     <div className="cards" id='filter-row'>
-                        {jeuxNote.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                        {jeuxNote.slice(0, 7).map((jeu, index) => (
                             <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                 <div className="image">
                                     <img src={jeu.image} alt="" />
@@ -541,7 +541,7 @@ export default function Home() {
                         ))}
                     </div>
                     <div className="h2">
-                        <h2>ALL GAMES</h2>
+                        <h2>TOUS NOS JEUX</h2>
                     </div>
                     <div className="cards">
                         {jeux.map((jeu, index) => (
