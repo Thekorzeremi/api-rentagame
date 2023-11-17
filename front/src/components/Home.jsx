@@ -48,12 +48,7 @@ export default function Home() {
                 const locRes = await axios.get('http://localhost:3000/emprunt');
                 const locRecuperes = locRes.data;
                 setUser(userRecuperes);
-                setJeux(jeuxRecuperes);
                 setCom(combinedComments);
-                const filteredJeux = jeuxRecuperes.filter(jeu =>
-                    jeu.nom.toLowerCase().includes(search.toLowerCase())
-                );
-                setSearchResults(filteredJeux);
                 setLoc(locRecuperes);
             } catch (error) {
                 console.error(error);
@@ -61,6 +56,23 @@ export default function Home() {
         }
 
         fetchJeux();
+    }, []);
+
+    useEffect(() => {
+        const searchSys = async () => {
+            try {
+                const jeuxRes = await axios.get('http://localhost:3000/jeu');
+                const jeuxRecuperes = jeuxRes.data;
+                setJeux(jeuxRecuperes);
+                const filteredJeux = jeuxRecuperes.filter(jeu =>
+                    jeu.nom.toLowerCase().includes(search.toLowerCase())
+                );
+                setSearchResults(filteredJeux);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        searchSys();
     }, [search]);
 
     useEffect(() => {
@@ -457,7 +469,7 @@ export default function Home() {
                         <div className="img">
                             <SearchIcon  style={{ fontSize: '1.8rem' }}/>
                         </div>
-                        <input type="text" placeholder="Recherche" value={search} onChange={(e) => setSearch(e.target.value)}/>
+                        <input type="text" placeholder="Recherche" value={search} onChange={(e) => setSearch(e.target.value.toString())}/>
                     </div>
                     {!isConnected && (
                         <div className="login-btn">
@@ -512,7 +524,7 @@ export default function Home() {
                                     <h2>RECENTLY ADDED</h2>
                                 </div>
                                 <div className="cards"  id='filter-row'>
-                                        {jeuxAdded.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                        {jeuxAdded.slice(0, 7).map((jeu, index) => (
                                         <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                             <div className="image">
                                                 <img src={jeu.image} alt="" />
@@ -535,7 +547,7 @@ export default function Home() {
                                         <h2>MOST POPULAR</h2>
                                     </div>
                                         <div className="cards" id='filter-row'>
-                                            {jeuxNote.slice(currentIndex, currentIndex + 7).map((jeu, index) => (
+                                            {jeuxNote.slice(0, 7).map((jeu, index) => (
                                                 <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                                     <div className="image">
                                                         <img src={jeu.image} alt="" />
