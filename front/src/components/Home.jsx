@@ -438,6 +438,7 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </div>
+                                    <span style={{textAlign: "end", fontSize: ".5rem"}}>La location dure 1 jour, celle-ci doit être renouvelée chaque jour !</span>
                                     {isLocated && (
                                         <div className="state-true">
                                                 <span>Le jeu est déjà loué !</span>
