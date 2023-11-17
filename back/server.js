@@ -108,10 +108,10 @@ app.post('/login', async (req, res) => {
             const user = rows[0];
             const match = await bcrypt.compare(password, user.pwd);
             if (match) {
-                currentUserId = user.id;
+                currentUserId = user.idUser;
                 res.status(200).json({
-                    id: user.id,
-                    prenom: user.prenom,
+                    id: user.idUser,
+                    pseudo: user.pseudo,
                     email: user.email,
                     message: 'Connexion réussie'
                 });
@@ -155,9 +155,10 @@ app.post('/emprunt', async (req, res) => {
         res.status(200).json(insertedNewLocId);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Erreur Serveur' });
+        res.status(500).json({ error: 'Erreur Serveur', details: err.message });
     }
 });
+
 
 app.get('/emprunt/:id', async (req, res) => {
     let conn;
@@ -235,13 +236,13 @@ app.post('/utilisateur', async (req, res) => {
         conn = await pool.getConnection();
 
         const hashedPassword = await bcrypt.hash(newUser.pwd, 10);
-
+        
         const result = await conn.query('INSERT INTO utilisateur (pseudo, email, pwd) VALUES (?, ?, ?)', [
             newUser.pseudo,
             newUser.email,
             hashedPassword
         ]);
-
+        
         const insertedUserId = result.insertId.toString();
         conn.release();
         res.status(201).json({ insertedUserId });

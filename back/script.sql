@@ -1,57 +1,73 @@
 CREATE DATABASE loc;
+
 USE loc;
-CREATE TABLE Jeux(
-   id VARCHAR(50),
-   nom VARCHAR(80),
-   note DECIMAL(2,1),
-   prix DECIMAL(4,2),
-   descr VARCHAR(255),
-   image VARCHAR(255),
-   PRIMARY KEY(id)
+
+CREATE TABLE Jeu (
+    idJeux INT AUTO_INCREMENT,
+    nom VARCHAR(80),
+    note DECIMAL(2,1),
+    prix DECIMAL(4,2),
+    descr VARCHAR(255),
+    image VARCHAR(255),
+    type VARCHAR(50),
+    PRIMARY KEY(idJeux)
 );
 
-CREATE TABLE Utilisateurs(
-   id VARCHAR(50),
-   pseudo VARCHAR(16),
-   email VARCHAR(50),
-   pwd VARCHAR(255),
-   PRIMARY KEY(id)
+CREATE TABLE Utilisateur (
+    idUser INT AUTO_INCREMENT,
+    pseudo VARCHAR(16),
+    email VARCHAR(50),
+    pwd VARCHAR(255),
+    PRIMARY KEY(idUser)
 );
 
-CREATE TABLE Louer(
-   id VARCHAR(50),
-   comment VARCHAR(255),
-   date_emprunt DATETIME,
-   date_retour DATETIME,
-   id_1 VARCHAR(50) NOT NULL,
-   id_2 VARCHAR(50) NOT NULL,
-   PRIMARY KEY(id),
-   UNIQUE(id_1),
-   UNIQUE(id_2),
-   FOREIGN KEY(id_1) REFERENCES Jeux(id),
-   FOREIGN KEY(id_2) REFERENCES Utilisateurs(id)
+CREATE TABLE Emprunt (
+    idLoc INT AUTO_INCREMENT,
+    date_emprunt DATETIME,
+    date_retour DATETIME,
+    idJeux INT NOT NULL,
+    idUser INT NOT NULL,
+    PRIMARY KEY(idLoc),
+    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
+    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
-INSERT INTO Jeux (id, nom, note, prix, descr, image)
-VALUES 
-('101', 'Assassin\'s Creed', 4.5, 29.99, 'Jeu d\'action-aventure', 'https://static.posters.cz/image/750/affiches-et-posters/assassin-s-creed-iii-cover-i12703.jpg'),
-('102', 'FIFA 22', 4.0, 49.99, 'Jeu de simulation de football', 'https://a.espncdn.com/photo/2021/0709/r878390_864x1296_2-3.jpg'),
-('103', 'The Legend of Zelda', 4.8, 59.99, "Jeu d\'aventure fantastique", 'https://static.posters.cz/image/750/affiches-et-posters/zelda-breath-of-the-wild-game-cover-i34556.jpg'),
-('104', 'Call of Duty: Warzone', 4.2, 0.00, 'Jeu de tir en ligne', 'https://cdn.mobygames.com/covers/11179296-call-of-duty-warzone-20-xbox-one-front-cover.jpg'),
-('105', 'Minecraft', 4.7, 24.99, "Jeu de construction et d\'aventure", 'https://gpstatic.com/acache/66/18/1/fr/packshot-27f95370fd8a786059edfb9506703d18.jpg');
+CREATE TABLE Commentaire (
+    idCom INT AUTO_INCREMENT,
+    comDate DATETIME,
+    comment VARCHAR(255),
+    idJeux INT NOT NULL,
+    idUser INT NOT NULL,
+    PRIMARY KEY(idCom),
+    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
+    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
+);
 
-INSERT INTO Louer (id, date_emprunt, date_retour, id_1, id_2)
+INSERT INTO Jeu (idJeux, nom, note, prix, descr, image, type)
 VALUES 
-('201', '2023-11-01 10:00:00', '2023-11-05 18:00:00', '101', '1'),
-('202', '2023-10-20 14:30:00', '2023-10-25 12:00:00', '103', '2'),
-('203', '2023-11-08 09:15:00', '2023-11-12 20:30:00', '105', '3'),
-('204', '2023-10-15 11:45:00', '2023-10-18 17:00:00', '102', '4'),
-('205', '2023-11-03 16:20:00', '2023-11-10 10:45:00', '104', '5');
+('1', 'The Witcher 3: Wild Hunt', 4.5, 49.99, 'Action RPG', 'https://thumbnails.pcgamingwiki.com/a/a4/The_Witcher_3_Wild_Hunt_-_cover.jpg/300px-The_Witcher_3_Wild_Hunt_-_cover.jpg', 'Adventure'),
+('2', 'Minecraft', 4.8, 29.99, 'Open-world sandbox', 'https://productkeys.fi/wp-content/uploads/2021/01/minecraft.jpg', 'Simulation'),
+('3', 'Fortnite', 3.9, 0.00, 'Battle Royale', 'https://cdn-uploads.gameblog.fr/images/jeux/11620/Fortnite_PC_Jaquette_002.jpg?ver=1', 'Action'),
+('4', 'Halo 5', 3.8, 24.99, 'Master Chief Adventure', 'https://cdn.vox-cdn.com/thumbor/cSFIh2Z6b6z1Zs3KUdxDjJZqhkA=/59x0:865x537/1400x1400/filters:focal(59x0:865x537):format(jpeg)/cdn.vox-cdn.com/uploads/chorus_image/image/46229378/Halo5_KeyArt_Horiz_Final.0.0.jpg', 'FPS'),
+('5', 'Forza Horizon 5', 4.2, 35.99, 'Racing adventure', 'https://theouterhaven.b-cdn.net/wp-content/uploads/2021/08/E4HHJZkXMAswau7.jpg', 'Racing'),
+('6', 'Sims 4', 4.5, 19.99, 'Create your world', 'https://static.fnac-static.com/multimedia/Images/FR/NR/f8/d1/52/5427704/1507-1/tsp20221215193634/Les-Sims-4-Edition-Limitee-PC.jpg', 'Simulation'),
+('7', 'Fifa 22', 3.2, 24.99, 'Live football', 'https://mms.businesswire.com/media/20210711005018/en/890552/4/EAS_FIFA22_GEN5.jpg', 'Sport'),
+('8', 'Call Of Duty GHOST', 2.9, 5.99, 'Kill enemies', 'https://cdn-products.eneba.com/resized-products/KRXZljO_350x200_1x-0.jpg', 'FPS');
 
-INSERT INTO Utilisateurs (id, pseudo, email, pwd)
+INSERT INTO Utilisateur (idUser, pseudo, email, pwd)
 VALUES 
-('1', 'Joueur1', 'joueur1@email.com', 'motdepasse1'),
-('2', 'Gamer2', 'gamer2@email.com', 'motdepasse2'),
-('3', 'Player3', 'player3@email.com', 'motdepasse3'),
-('4', 'User4', 'user4@email.com', 'motdepasse4'),
-('5', 'Player5', 'player5@email.com', 'motdepasse5');
+('1', 'Gamer123', 'gamer123@email.com', 'password123'),
+('2', 'Player456', 'player456@email.com', 'securepassword'),
+('3', 'GamingMaster', 'mastergamer@email.com', 'gaming123');
+
+INSERT INTO Emprunt (idLoc, date_emprunt, date_retour, idJeux, idUser)
+VALUES 
+('1', '2023-01-15 12:00:00', '2023-01-22 18:00:00', '1', '1'),
+('2', '2023-02-05 15:30:00', '2023-02-12 20:00:00', '2', '2'),
+('3', '2023-03-10 10:00:00', '2023-03-17 14:45:00', '3', '3');
+
+INSERT INTO Commentaire (comment, comDate, idJeux, idUser)
+VALUES 
+('Great game!', '2023-01-15 12:00:00', '1', '1'),
+('Love the building mechanics!', '2023-01-15 12:00:00', '2', '2'),
+('Needs more updates.', '2023-01-15 12:00:00', '3', '3');

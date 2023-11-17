@@ -20,6 +20,11 @@ export default function Home() {
     const [selectedGame, setSelectedGame] = useState(false);
     const [comment, setComment] = useState('');
     const [isConnected, setIsConnected] = useState(false);
+    const [pseudo, setPseudo] = useState('');
+    const [email, setEmail] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [loginData, setLoginData] = useState({email: '',password: ''});
+    const [isLoggedIn, setLoggedIn] = useState(true);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -60,6 +65,8 @@ export default function Home() {
 
         sortJeux();
     }, [jeux]);
+
+    const ls = localStorage;
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
@@ -120,7 +127,7 @@ export default function Home() {
             comment: comment,
             comDate: Date.now(),
             idJeux: selectedGame.idJeux,
-            idUser: 1,
+            idUser: ls.getItem("key1"),
         };
     
         try {
@@ -143,11 +150,12 @@ export default function Home() {
         console.log(selectedGame)
 
         const newLoc = {
-            date_emprunt: Date.now(),
-            date_retour: moment().add(24, 'hours').valueOf(),
+            date_emprunt: moment().format('YYYY-MM-DD HH:mm:ss'),
+            date_retour: moment().add(24, 'hours').format('YYYY-MM-DD HH:mm:ss'),
             idJeux: selectedGame.idJeux,
-            idUser: 1,
+            idUser: ls.getItem("key1"),
         };
+          
 
         console.log(newLoc);
     
@@ -161,6 +169,57 @@ export default function Home() {
     
     moment.locale('fr');
 
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        let state = true;
+        try {
+            const check = await axios.get('http://localhost:3000/utilisateur');
+            for (let i = 0; i < check.data.length -1; i++ ) {
+                if (check.data[i].email === email) {
+                    state = false;
+                }
+            }
+            if (state) {
+                const newUser = {
+                    pseudo: pseudo,
+                    email: email,
+                    pwd: pwd,
+                }
+                const res = await axios.post('http://localhost:3000/utilisateur', newUser);
+            } else {
+                console.log('Le compte existe déjà');
+            }
+        } catch (error) {
+            console.error('Erreur durant la création du compte :', error);
+        }
+    }
+
+    const handleLogin = async (req, res) => {
+        try {
+            localStorage.clear();
+            const ls = localStorage;
+            const result = await axios.post('http://localhost:3000/login', loginData);
+            if(result.status === 200) {
+                setLoggedIn(true);
+                const userData = result.data;
+                const ls = localStorage;
+                ls.setItem("key1", userData.id);
+                ls.setItem("key2", userData.pseudo);
+                ls.setItem("key3", userData.email);
+                console.log(ls.getItem("key2"));
+                console.log("connecté");
+                setIsConnected(true);
+                setIsLogin(false);
+            } else {
+                console.log("Pas co !");
+                setIsConnected(false);
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json('Erreur');
+        }
+    }
+
     return (
         <div className='content'>
             <div className="container-page">
@@ -172,13 +231,13 @@ export default function Home() {
                             </div>
                             <div className="form">
                                 <div className="email">
-                                    <input type="text" placeholder='Email' required/>
+                                    <input type="text" placeholder='Email' onChange={(e) => setLoginData({...loginData, email: e.target.value})} required/>
                                 </div>
                                 <div className="password">
-                                    <input type="password"placeholder='Password' required/>
+                                    <input type="password"placeholder='Password' onChange={(e) => setLoginData({...loginData, password: e.target.value})} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={closeLoginPopup}>SUBMIT</span>
+                                    <span onClick={handleLogin}>SUBMIT</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeLoginPopup}>
@@ -195,16 +254,16 @@ export default function Home() {
                             </div>
                             <div className="form">
                                 <div className="pseudo">
-                                    <input type="text" placeholder='Pseudo' required/>
+                                    <input type="text" placeholder='Pseudo' onChange={(e)=> setPseudo(e.target.value)} required/>
                                 </div>
                                 <div className="email">
-                                    <input type="text" placeholder='Email' required/>
+                                    <input type="text" placeholder='Email' onChange={(e)=> setEmail(e.target.value)} required/>
                                 </div>
                                 <div className="password">
-                                    <input type="password"placeholder='Password' required/>
+                                    <input type="password"placeholder='Password' onChange={(e)=> setPwd(e.target.value)} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={closeRegisterPopup}>SUBMIT</span>
+                                    <span onClick={handleRegister}>SUBMIT</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeRegisterPopup}>
@@ -321,7 +380,7 @@ export default function Home() {
                     )}
                     {isConnected && (
                         <div className="login-btn">
-                            <p>PSEUDO</p>
+                            <p>{ls.getItem("key2")}</p>
                         </div>
                     )}
                 </div>
