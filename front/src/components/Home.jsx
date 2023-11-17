@@ -14,6 +14,7 @@ export default function Home() {
     const [jeuxAdded, setJeuxAdded] = useState([]);
     const [user, setUser] = useState([]);
     const [com, setCom] = useState([]);
+    const [loc, setLoc] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
@@ -25,6 +26,7 @@ export default function Home() {
     const [pwd, setPwd] = useState('');
     const [loginData, setLoginData] = useState({email: '',password: ''});
     const [isLoggedIn, setLoggedIn] = useState(true);
+    const [isLocated, setLocated] = useState(true);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -35,9 +37,12 @@ export default function Home() {
                 const userRecuperes = userRes.data;
                 const comRes = await axios.get('http://localhost:3000/comment');
                 const comRecuperes = comRes.data;
+                const locRes = await axios.get('http://localhost:3000/emprunt');
+                const locRecuperes = locRes.data;
                 setUser(userRecuperes);
                 setJeux(jeuxRecuperes);
                 setCom(comRecuperes);
+                setLoc(locRecuperes);
             } catch (error) {
                 console.error(error);
             }
@@ -93,15 +98,62 @@ export default function Home() {
     };
 
     const handleGameClick = (index) => {
-        setSelectedGame(jeux[currentIndex + index]);
+        const clickedGame = jeux[currentIndex + index]
+        setSelectedGame(clickedGame);
+
+        const existingLoc = loc.find(
+            (location) =>
+                Number(location.idJeux) === Number(clickedGame.idJeux) &&
+                Number(location.idUser) === Number(ls.getItem("key1")) &&
+                moment().isBetween(moment(location.date_emprunt), moment(location.date_retour))
+        );
+    
+    
+        if (existingLoc) {
+            setLocated(true);
+        } else {
+            setLocated(false);
+        }
     };
 
     const handleGameClickRating = (index) => {
-        setSelectedGame(jeuxNote[currentIndex + index]);
+        const clickedGame = jeuxNote[currentIndex + index];
+        setSelectedGame(clickedGame);
+    
+        const existingLoc = loc.find(
+            (location) =>
+                Number(location.idJeux) === Number(clickedGame.idJeux) &&
+                Number(location.idUser) === Number(ls.getItem("key1")) &&
+                moment().isBetween(moment(location.date_emprunt), moment(location.date_retour))
+        );
+    
+    
+        if (existingLoc) {
+            setLocated(true);
+        } else {
+            setLocated(false);
+        }
     };
+    
+    
 
     const handleGameClickAdded = (index) => {
-        setSelectedGame(jeuxAdded[currentIndex + index]);
+        const clickedGame = jeuxAdded[currentIndex + index]
+        setSelectedGame(clickedGame);
+
+        const existingLoc = loc.find(
+            (location) =>
+                Number(location.idJeux) === Number(clickedGame.idJeux) &&
+                Number(location.idUser) === Number(ls.getItem("key1")) &&
+                moment().isBetween(moment(location.date_emprunt), moment(location.date_retour))
+        );
+    
+    
+        if (existingLoc) {
+            setLocated(true);
+        } else {
+            setLocated(false);
+        }
     };
 
     const closeGamePopup = () => {
@@ -300,13 +352,28 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </div>
+                                    {isLocated && (
+                                        <div className="state-true">
+                                                <span>Le jeu est déjà loué !</span>
+                                        </div>
+                                    )}
+                                    {!isLocated && (
+                                        <div className="state-false">
+                                                <span>Le jeu n'est pas  loué !</span>
+                                        </div>
+                                    )}
                                 <div className="action">
                                     <div className="loc">
+                                    {!isLocated && (
                                         <span onClick={handleSubmitLoc}>LOUER</span>
+                                    )}
+                                    {isLocated && (
+                                        <span >CAN'T LOUER</span>
+                                    )}
                                         <span>CANCEL</span>
                                     </div>
                                     <div className="note">
-                                        <h2>NOTER</h2>
+                                        <h2>Noter</h2>
                                         <div className="note-btn">
                                             <span>1</span>
                                             <span>2</span>
