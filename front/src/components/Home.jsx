@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../style/Home.scss';
-// import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-// import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export default function Home() {
     const [jeux, setJeux] = useState([]);
@@ -13,6 +13,7 @@ export default function Home() {
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [selectedGame, setSelectedGame] = useState(false);
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -89,6 +90,21 @@ export default function Home() {
 
     const closeGamePopup = () => {
         setSelectedGame(null);
+    };
+
+    const handleComment = (event) => {
+        setComment(event.target.value);
+    };
+
+    const handleKeyDownEnter = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSubmitComment();
+        }
+    };
+
+    const handleSubmitComment = () => {
+        console.log('Le commentaire "', comment, '" a été envoyé !');
     };
 
     return (
@@ -282,6 +298,19 @@ export default function Home() {
                                         </div>
                                     </div>
                                 </div>
+                                <div className="add-comments">
+                                    <div className="add-comment">
+                                        <h3>ADD COMMENT</h3>
+                                        <textarea
+                                            value={ comment }
+                                            onChange={ handleComment }
+                                            onKeyDown={ handleKeyDownEnter }
+                                        />
+                                        <div className="submit">
+                                            <span onClick={handleSubmitComment}>SUBMIT</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div className="close-btn" onClick={closeGamePopup}>
                                 Close
@@ -310,10 +339,11 @@ export default function Home() {
                 </div>
                 <div className="btn-carou">
                     <div onClick={handlePrev}>
-                        {/* <ArrowBackIosIcon /> */}
-                        Précédent
+                        <ArrowBackIosIcon />
                     </div>
-                    <div onClick={handleNext}>Suivant</div>
+                    <div onClick={handleNext}>
+                        <ArrowForwardIosIcon />
+                    </div>
                 </div>
                 <div className="carousel">
                     <div className="cards">
