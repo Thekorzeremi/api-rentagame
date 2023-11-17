@@ -11,6 +11,7 @@ export default function Home() {
     const [jeuxNote, setJeuxNote] = useState([]);
     const [jeuxAdded, setJeuxAdded] = useState([]);
     const [user, setUser] = useState([]);
+    const [com, setCom] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
@@ -21,12 +22,15 @@ export default function Home() {
     useEffect(() => {
         const fetchJeux = async () => {
             try {
-                const jeuxRes = await axios.get('http://localhost:3000/jeux');
+                const jeuxRes = await axios.get('http://localhost:3000/jeu');
                 const jeuxRecuperes = jeuxRes.data;
-                const userRes = await axios.get('http://localhost:3000/utilisateurs');
+                const userRes = await axios.get('http://localhost:3000/utilisateur');
                 const userRecuperes = userRes.data;
+                const comRes = await axios.get('http://localhost:3000/comment');
+                const comRecuperes = comRes.data;
                 setUser(userRecuperes);
                 setJeux(jeuxRecuperes);
+                setCom(comRecuperes);
             } catch (error) {
                 console.error(error);
             }
@@ -48,7 +52,7 @@ export default function Home() {
     useEffect(() => {
         const sortJeux = () => {
             const jeuxArray = [...jeux];
-            jeuxArray.sort((a, b) => b.id - a.id);
+            jeuxArray.sort((a, b) => b.idJeux - a.idJeux);
             setJeuxAdded(jeuxArray);
         };
 
@@ -175,9 +179,9 @@ export default function Home() {
                                     </div>
                                     <div className="content">
                                         <h2>Genre</h2>
-                                        <p>{selectedGame.descr}</p>
+                                        <p>{selectedGame.type}</p>
                                         <h2>Resume</h2>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel venenatis enim, maximus interdum magna. Etiam sit amet sollicitudin dolor. Pellentesque sagittis, lacus eu interdum porttitor, massa ex consectetur dolor, eu vestibulum leo quam sed viverra.</p>
+                                        <p>{selectedGame.descr}</p>
                                         <div className="more">
                                             <div>
                                                 <h2>Prix</h2>
@@ -212,94 +216,19 @@ export default function Home() {
                                     <h2>Comments</h2>
                                 </div>
                                 <div className="comments">
+                                {com.map((com, index) => (
                                     <div className="row-comment">
                                         <div className="author">
-                                            <span>NAME</span>
+                                            <span>{ com.idUser }</span>
                                         </div>
                                         <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
+                                            <span>{ com.comment }</span>
                                         </div>
                                         <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
+                                            <span>{ com.comDate }</span>
                                         </div>
                                     </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qar re za raz raz rzr a r er ra raeasdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>NAME</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>zefjkbdfvdsqv dsq  dsv sq cv xw c qsd fvsq dv x c f qsdf qsdf f sq</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>22 noveembre 2023 14:30</span>
-                                        </div>
-                                    </div>
+                                ))}
                                 </div>
                                 <div className="add-comments">
                                     <div className="add-comment">
