@@ -2,7 +2,7 @@ CREATE DATABASE loc;
 
 USE loc;
 
-CREATE TABLE Jeu(
+CREATE TABLE Jeu (
    idJeux VARCHAR(50),
    nom VARCHAR(80),
    note DECIMAL(2,1),
@@ -13,7 +13,7 @@ CREATE TABLE Jeu(
    PRIMARY KEY(idJeux)
 );
 
-CREATE TABLE Utilisateur(
+CREATE TABLE Utilisateur (
    idUser VARCHAR(50),
    pseudo VARCHAR(16),
    email VARCHAR(50),
@@ -21,27 +21,23 @@ CREATE TABLE Utilisateur(
    PRIMARY KEY(idUser)
 );
 
-CREATE TABLE Emprunt(
+CREATE TABLE Emprunt (
    idLoc VARCHAR(50),
    date_emprunt DATETIME,
    date_retour DATETIME,
    idJeux VARCHAR(50) NOT NULL,
    idUser VARCHAR(50) NOT NULL,
    PRIMARY KEY(idLoc),
-   UNIQUE(idJeux),
-   UNIQUE(idUser),
    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
-CREATE TABLE Commentaire(
-   idCom COUNTER,
+CREATE TABLE Commentaire (
+   idCom INT AUTO_INCREMENT,
    comment VARCHAR(255),
    idJeux VARCHAR(50) NOT NULL,
    idUser VARCHAR(50) NOT NULL,
    PRIMARY KEY(idCom),
-   UNIQUE(idJeux),
-   UNIQUE(idUser),
    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
