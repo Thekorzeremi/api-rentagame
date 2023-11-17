@@ -34,6 +34,7 @@ CREATE TABLE Emprunt (
 
 CREATE TABLE Commentaire (
    idCom INT AUTO_INCREMENT,
+   comDate DATETIME,
    comment VARCHAR(255),
    idJeux VARCHAR(50) NOT NULL,
    idUser VARCHAR(50) NOT NULL,
@@ -65,8 +66,8 @@ VALUES
 ('2', '2023-02-05 15:30:00', '2023-02-12 20:00:00', '2', '2'),
 ('3', '2023-03-10 10:00:00', '2023-03-17 14:45:00', '3', '3');
 
-INSERT INTO Commentaire (comment, idJeux, idUser)
+INSERT INTO Commentaire (comment, comDate, idJeux, idUser)
 VALUES 
-('Great game!', '1', '1'),
-('Love the building mechanics!', '2', '2'),
-('Needs more updates.', '3', '3');
+('Great game!', '2023-01-15 12:00:00', '1', '1'),
+('Love the building mechanics!', '2023-01-15 12:00:00', '2', '2'),
+('Needs more updates.', '2023-01-15 12:00:00', '3', '3');
