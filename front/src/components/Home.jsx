@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 
 export default function Home() {
+    // ALL USE STATES
     const [jeux, setJeux] = useState([]);
     const [jeuxNote, setJeuxNote] = useState([]);
     const [jeuxAdded, setJeuxAdded] = useState([]);
@@ -16,6 +17,8 @@ export default function Home() {
     const [com, setCom] = useState([]);
     const [loc, setLoc] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex2, setCurrentIndex2] = useState(0);
+    const [currentIndex3, setCurrentIndex3] = useState(0);
     const [isLogin, setIsLogin] = useState(false);
     const [isRegister, setIsRegister] = useState(false);
     const [selectedGame, setSelectedGame] = useState(false);
@@ -34,6 +37,7 @@ export default function Home() {
     useEffect(() => {
         const fetchJeux = async () => {
             try {
+                // BASIC GET FOR ALL GAMES, USERS, COMMENTS AND RENTALS
                 const jeuxRes = await axios.get('http://localhost:3000/jeu');
                 const jeuxRecuperes = jeuxRes.data;
                 const userRes = await axios.get('http://localhost:3000/utilisateur');
@@ -61,6 +65,7 @@ export default function Home() {
 
     useEffect(() => {
         const searchSys = async () => {
+            // CALL SETS & FILTER ALL SETS BY NAME AND SET THEM IN ANOTHER ARRAY
             try {
                 const jeuxRes = await axios.get('http://localhost:3000/jeu');
                 const jeuxRecuperes = jeuxRes.data;
@@ -77,6 +82,7 @@ export default function Home() {
     }, [search]);
 
     useEffect(() => {
+        // SORT GAMES BY RATING
         const sortJeux = () => {
             const jeuxArray = [...jeux];
             jeuxArray.sort((a, b) => b.note - a.note);
@@ -87,6 +93,7 @@ export default function Home() {
     }, [jeux]);
 
     useEffect(() => {
+        // SORT GAMES BY ID TO HAVE THEM IN ORDER OF ADDITION
         const sortJeux = () => {
             const jeuxArray = [...jeux];
             jeuxArray.sort((a, b) => b.idJeux - a.idJeux);
@@ -97,13 +104,30 @@ export default function Home() {
     }, [jeux]);
 
     const ls = localStorage;
-    
+
+    // ALL HANDLE FOR POPUPS
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
     };
     
     const handlePrev = () => {
         setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 2));
+    };
+
+    const handleNext2 = () => {
+        setCurrentIndex2((prevIndex) => prevIndex + 7);
+    };
+    
+    const handlePrev2 = () => {
+        setCurrentIndex2((prevIndex) => Math.max(0, prevIndex - 7));
+    };
+
+    const handleNext3 = () => {
+        setCurrentIndex3((prevIndex) => prevIndex + 7);
+    };
+    
+    const handlePrev3 = () => {
+        setCurrentIndex3((prevIndex) => Math.max(0, prevIndex - 7));
     };
 
     const handleLoginClick = () => {
@@ -122,6 +146,11 @@ export default function Home() {
         setIsRegister(false);
     };
 
+    const closeGamePopup = () => {
+        setSelectedGame(null);
+    };
+
+    // HANDLE FOR THE USER TO CHOOSE A RATE 
     const handleRatingClick = async (rating) => {
         setUserRating(rating);
 
@@ -143,6 +172,7 @@ export default function Home() {
         }
     };
 
+    // HANDLE TO SAVE THE GAME THE USER HAS CLICKED ON FOR THE UNSORTED GAME LIST
     const handleGameClick = (index) => {
         const clickedGame = jeux[currentIndex + index]
         setSelectedGame(clickedGame);
@@ -162,10 +192,12 @@ export default function Home() {
         }
     };
 
+    // HANDLE TO SAVE THE GAME THE USER HAS CLICKED ON FOR THE SEARCH GAME LIST
     const handleGameClickSearch = (index) => {
         setSelectedGame(searchResults[currentIndex + index]);
     }
 
+    // HANDLE TO SAVE THE GAME THE USER HAS CLICKED ON FOR THE RATING GAME LIST
     const handleGameClickRating = (index) => {
         const clickedGame = jeuxNote[currentIndex + index];
         setSelectedGame(clickedGame);
@@ -185,7 +217,7 @@ export default function Home() {
     };
     
     
-
+// HANDLE TO SAVE THE GAME THE USER HAS CLICKED ON FOR THE ADDED GAME LIST
     const handleGameClickAdded = (index) => {
         const clickedGame = jeuxAdded[currentIndex + index]
         setSelectedGame(clickedGame);
@@ -205,10 +237,7 @@ export default function Home() {
         }
     };
 
-    const closeGamePopup = () => {
-        setSelectedGame(null);
-    };
-
+    // HANDLE FOR THE TEXTAREA SUBMIT WHEN USER PRESS ENTER
     const handleKeyDownEnter = async(e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -216,6 +245,7 @@ export default function Home() {
         }
     };
 
+    // FUNCTION FOR SUBMIT NEW COMMENT
     const handleSubmitComment = async (e) => {
         e.preventDefault();
     
@@ -242,6 +272,7 @@ export default function Home() {
         }
     };
 
+    // FUNCTION FOR CREATE NEW RANTALS
     const handleSubmitLoc = async (e) => {
         e.preventDefault();
     
@@ -256,9 +287,12 @@ export default function Home() {
             idJeux: selectedGame.idJeux,
             idUser: ls.getItem("key1"),
         };
+
+        console.log(newLoc);
     
         try {
             const res = await axios.post(`http://localhost:3000/emprunt`, newLoc);
+            console.log(res);
         } catch (error) {
             console.error('Erreur lors de la publication de l\'article :', error);
         }
@@ -266,6 +300,7 @@ export default function Home() {
         window.location.reload();
     };
 
+    // FUNCTION FOR CANCEL RENTALS
     const handleCancelLoc = async () => {
         if (!selectedGame) {
             console.error('No game selected');
@@ -296,6 +331,7 @@ export default function Home() {
     
     moment.locale('fr');
 
+    // HANDLE FOR CREATE ACCOUNT
     const handleRegister = async (e) => {
         e.preventDefault();
         let state = true;
@@ -322,6 +358,7 @@ export default function Home() {
         }
     }
 
+    // HANDLE FOR LOGIN AN ACCOUNT TO THE WEBSITE
     const handleLogin = async (req, res) => {
         try {
             localStorage.clear();
@@ -347,6 +384,7 @@ export default function Home() {
         }
     }
 
+    // FUNCITON FOR DISCONNECT USER
     const handleLogout = async (req, res) => {
         try {
             localStorage.clear();
@@ -574,8 +612,17 @@ export default function Home() {
                                 <div className="h2">
                                     <h2>RECENTLY ADDED</h2>
                                 </div>
+                                    <div className="btn-carou">
+                                        <div onClick={handlePrev2} style={{ visibility: currentIndex2 > 1 ? 'visible' : 'hidden' }}>
+                                            <ArrowBackIosIcon />
+                                        </div>
+
+                                        <div onClick={handleNext2} style={{ visibility: currentIndex2 < 2 ? 'visible' : 'hidden' }}>
+                                            <ArrowForwardIosIcon />
+                                        </div>
+                                    </div>
                                 <div className="cards"  id='filter-row'>
-                                        {jeuxAdded.slice(0, 7).map((jeu, index) => (
+                                        {jeuxAdded.slice(currentIndex2, currentIndex2 + 7).map((jeu, index) => (
                                         <div key={index} className="card" onClick={() => handleGameClickAdded(index)}>
                                             <div className="image">
                                                 <img src={jeu.image} alt="" />
@@ -597,8 +644,17 @@ export default function Home() {
                                     <div className="h2">
                                         <h2>MOST POPULAR</h2>
                                     </div>
+                                    <div className="btn-carou">
+                                        <div onClick={handlePrev3} style={{ visibility: currentIndex3 > 1 ? 'visible' : 'hidden' }}>
+                                            <ArrowBackIosIcon />
+                                        </div>
+
+                                        <div onClick={handleNext3} style={{ visibility: currentIndex3 < 2 ? 'visible' : 'hidden' }}>
+                                            <ArrowForwardIosIcon />
+                                        </div>
+                                    </div>
                                         <div className="cards" id='filter-row'>
-                                            {jeuxNote.slice(0, 7).map((jeu, index) => (
+                                            {jeuxNote.slice(currentIndex3, currentIndex3 + 7).map((jeu, index) => (
                                                 <div key={index} className="card" onClick={() => handleGameClickRating(index)}>
                                                     <div className="image">
                                                         <img src={jeu.image} alt="" />

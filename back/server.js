@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
     res.json('Hello la Team!');
 });
 
+// CRUD GAME
 app.get('/jeu', async (req, res) => {
     let conn;
     try {
@@ -98,6 +99,7 @@ app.delete('/jeu/:id', async (req, res) => {
     }
 });
 
+// LOGIN REQUEST
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -126,6 +128,8 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+// CRUD EMPRUNT
 app.get('/emprunt', async (req, res) => {
     let conn;
     try {
@@ -202,6 +206,7 @@ app.delete('/emprunt/:id', async (req, res) => {
     }
 });
 
+// CRUD USER
 app.get('/utilisateur', async (req, res) => {
     let conn;
     try {
@@ -283,6 +288,7 @@ app.delete('/utilisateur/:id', async (req, res) => {
     }
 });
 
+// CRUD COMMENTS
 app.get('/comment-user', async (req, res) => {
     let conn;
     try {
