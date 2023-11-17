@@ -23,6 +23,8 @@ export default function Home() {
     const [pseudo, setPseudo] = useState('');
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
+    const [loginData, setLoginData] = useState({email: '',password: ''});
+    const [isLoggedIn, setLoggedIn] = useState(true);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -63,6 +65,8 @@ export default function Home() {
 
         sortJeux();
     }, [jeux]);
+
+    const ls = localStorage;
 
     const handleNext = () => {
         setCurrentIndex((prevIndex) => prevIndex + 2);
@@ -124,7 +128,7 @@ export default function Home() {
             comment: comment,
             comDate: Date.now(),
             idJeux: selectedGame.idJeux,
-            idUser: 1,
+            idUser: ls.getItem("key1"),
         };
 
         console.log(newComment);
@@ -166,8 +170,30 @@ export default function Home() {
         }
     }
 
-    const handleLogin = () => {
-
+    const handleLogin = async (req, res) => {
+        try {
+            localStorage.clear();
+            const ls = localStorage;
+            const result = await axios.post('http://localhost:3000/login', loginData);
+            if(result.status === 200) {
+                setLoggedIn(true);
+                const userData = result.data;
+                const ls = localStorage;
+                ls.setItem("key1", userData.id);
+                ls.setItem("key2", userData.pseudo);
+                ls.setItem("key3", userData.email);
+                console.log(ls.getItem("key2"));
+                console.log("connecté");
+                setIsConnected(true);
+                setIsLogin(false);
+            } else {
+                console.log("Pas co !");
+                setIsConnected(false);
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).json('Erreur');
+        }
     }
 
     return (
@@ -181,13 +207,13 @@ export default function Home() {
                             </div>
                             <div className="form">
                                 <div className="email">
-                                    <input type="text" placeholder='Email' required/>
+                                    <input type="text" placeholder='Email' onChange={(e) => setLoginData({...loginData, email: e.target.value})} required/>
                                 </div>
                                 <div className="password">
-                                    <input type="password"placeholder='Password' required/>
+                                    <input type="password"placeholder='Password' onChange={(e) => setLoginData({...loginData, password: e.target.value})} required/>
                                 </div>
                                 <div className="submit">
-                                    <span onClick={closeLoginPopup}>SUBMIT</span>
+                                    <span onClick={handleLogin}>SUBMIT</span>
                                 </div>
                             </div>
                             <div className="close-btn" onClick={closeLoginPopup}>
@@ -330,7 +356,7 @@ export default function Home() {
                     )}
                     {isConnected && (
                         <div className="login-btn">
-                            <p>PSEUDO</p>
+                            <p>{ls.getItem("key2")}</p>
                         </div>
                     )}
                 </div>

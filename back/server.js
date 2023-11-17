@@ -108,10 +108,10 @@ app.post('/login', async (req, res) => {
             const user = rows[0];
             const match = await bcrypt.compare(password, user.pwd);
             if (match) {
-                currentUserId = user.id;
+                currentUserId = user.idUser;
                 res.status(200).json({
-                    id: user.id,
-                    prenom: user.prenom,
+                    id: user.idUser,
+                    pseudo: user.pseudo,
                     email: user.email,
                     message: 'Connexion réussie'
                 });
