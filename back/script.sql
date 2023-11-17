@@ -3,44 +3,44 @@ CREATE DATABASE loc;
 USE loc;
 
 CREATE TABLE Jeu (
-   idJeux INT AUTO_INCREMENT,
-   nom VARCHAR(80),
-   note DECIMAL(2,1),
-   prix DECIMAL(4,2),
-   descr VARCHAR(255),
-   image VARCHAR(255),
-   type VARCHAR(50),
-   PRIMARY KEY(idJeux)
+    idJeux INT AUTO_INCREMENT,
+    nom VARCHAR(80),
+    note DECIMAL(2,1),
+    prix DECIMAL(4,2),
+    descr VARCHAR(255),
+    image VARCHAR(255),
+    type VARCHAR(50),
+    PRIMARY KEY(idJeux)
 );
 
 CREATE TABLE Utilisateur (
-   idUser INT AUTO_INCREMENT,
-   pseudo VARCHAR(16),
-   email VARCHAR(50),
-   pwd VARCHAR(255),
-   PRIMARY KEY(idUser)
+    idUser INT AUTO_INCREMENT,
+    pseudo VARCHAR(16),
+    email VARCHAR(50),
+    pwd VARCHAR(255),
+    PRIMARY KEY(idUser)
 );
 
 CREATE TABLE Emprunt (
-   idLoc INT AUTO_INCREMENT,
-   date_emprunt DATETIME,
-   date_retour DATETIME,
-   idJeux VARCHAR(50) NOT NULL,
-   idUser VARCHAR(50) NOT NULL,
-   PRIMARY KEY(idLoc),
-   FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
-   FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
+    idLoc INT AUTO_INCREMENT,
+    date_emprunt DATETIME,
+    date_retour DATETIME,
+    idJeux INT NOT NULL,
+    idUser INT NOT NULL,
+    PRIMARY KEY(idLoc),
+    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
+    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
 CREATE TABLE Commentaire (
-   idCom INT AUTO_INCREMENT,
-   comDate DATETIME,
-   comment VARCHAR(255),
-   idJeux VARCHAR(50) NOT NULL,
-   idUser VARCHAR(50) NOT NULL,
-   PRIMARY KEY(idCom),
-   FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
-   FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
+    idCom INT AUTO_INCREMENT,
+    comDate DATETIME,
+    comment VARCHAR(255),
+    idJeux INT NOT NULL,
+    idUser INT NOT NULL,
+    PRIMARY KEY(idCom),
+    FOREIGN KEY(idJeux) REFERENCES Jeu(idJeux),
+    FOREIGN KEY(idUser) REFERENCES Utilisateur(idUser)
 );
 
 INSERT INTO Jeu (idJeux, nom, note, prix, descr, image, type)
