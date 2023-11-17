@@ -16,6 +16,7 @@ export default function Home() {
     const [isRegister, setIsRegister] = useState(false);
     const [selectedGame, setSelectedGame] = useState(false);
     const [comment, setComment] = useState('');
+    const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
         const fetchJeux = async () => {
@@ -330,14 +331,21 @@ export default function Home() {
                         </div>
                         <input type="text" placeholder="Recherche"/>
                     </div>
-                    <div className="login-btn">
-                        <div className="login" onClick={handleLoginClick}>
-                            <span>LOGIN</span>
+                    {!isConnected && (
+                        <div className="login-btn">
+                            <div className="login" onClick={handleLoginClick}>
+                                <span>LOGIN</span>
+                            </div>
+                            <div className="register" onClick={handleRegisterClick}>
+                                <span>REGISTER</span>
+                            </div>
                         </div>
-                        <div className="register" onClick={handleRegisterClick}>
-                            <span>REGISTER</span>
+                    )}
+                    {isConnected && (
+                        <div className="login-btn">
+                            <p>PSEUDO</p>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <div className="h2">
                     <h2>RECOMMENDED GAMES</h2>
