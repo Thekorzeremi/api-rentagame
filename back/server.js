@@ -308,12 +308,13 @@ app.get('/comment/:jeu/:id', async (req, res) => {
 
 app.post('/comment/:jeu', async (req, res) => {
     const currentGameId =  req.params.jeu;
-    const newCom = req.body;
+    const { comDate, newCom } = req.body;
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query('INSERT INTO Commentaire (comment, idJeux, idUser) VALUES (?,?,?)', [
-            newCom.comment,
+        const result = await conn.query('INSERT INTO Commentaire (comment, comDate, idJeux, idUser) VALUES (?,?,?,?)', [
+            newCom,
+            comDate,
             currentGameId,
             currentUserId
         ]);
