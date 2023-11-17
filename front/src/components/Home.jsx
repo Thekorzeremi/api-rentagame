@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/fr';
 import '../style/Home.scss';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -102,20 +104,42 @@ export default function Home() {
         setSelectedGame(null);
     };
 
-    const handleComment = (event) => {
-        setComment(event.target.value);
-    };
-
-    const handleKeyDownEnter = (e) => {
+    const handleKeyDownEnter = async(e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
             handleSubmitComment();
         }
     };
 
-    const handleSubmitComment = () => {
-        console.log('Le commentaire "', comment, '" a été envoyé !');
+    const handleSubmitComment = async (e) => {
+        e.preventDefault();
+    
+        if (!selectedGame) {
+            console.error('No game selected');
+            return;
+        }
+        console.log(selectedGame)
+
+        const newComment = {
+            comment: comment,
+            comDate: Date.now(),
+            idJeux: selectedGame.idJeux,
+            idUser: 1,
+        };
+
+        console.log(newComment);
+    
+        try {
+            const res = await axios.post(`http://localhost:3000/comment`, newComment);
+            console.log(res);
+            setCom([...com, newComment]);
+            setComment('')
+        } catch (error) {
+            console.error('Erreur lors de la publication de l\'article :', error);
+        }
     };
+    
+    moment.locale('fr');
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -248,26 +272,28 @@ export default function Home() {
                                     <h2>Comments</h2>
                                 </div>
                                 <div className="comments">
-                                {com.map((com, index) => (
-                                    <div className="row-comment">
-                                        <div className="author">
-                                            <span>{ com.idUser }</span>
-                                        </div>
-                                        <div className="text">
-                                            <span>{ com.comment }</span>
-                                        </div>
-                                        <div className="date">
-                                            <span>{ com.comDate }</span>
-                                        </div>
-                                    </div>
-                                ))}
+                                    {com
+                                        .filter(comment => comment.idJeux === (selectedGame && selectedGame.idJeux))
+                                        .map((com, index) => (
+                                            <div className="row-comment" key={index}>
+                                                <div className="author">
+                                                    <span>{ com.idUser }</span>
+                                                </div>
+                                                <div className="text">
+                                                    <span>{ com.comment }</span>
+                                                </div>
+                                                <div className="date">
+                                                    <span>{moment(com.comDate).format('LLL')}</span>
+                                                </div>
+                                            </div>
+                                    ))}
                                 </div>
                                 <div className="add-comments">
                                     <div className="add-comment">
                                         <h3>ADD COMMENT</h3>
                                         <textarea
                                             value={ comment }
-                                            onChange={ handleComment }
+                                            onChange={(e)=> setComment(e.target.value)}
                                             onKeyDown={ handleKeyDownEnter }
                                         />
                                         <div className="submit">
