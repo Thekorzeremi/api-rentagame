@@ -4,11 +4,9 @@ const bcrypt = require('bcryptjs');
 const cors = require("cors");
 require('dotenv').config();
 const app = express();
-const port = process.env.PORT || 3000;
 
 const pool = mariadb.createPool({
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
     database: process.env.DB_DATABASE,
     user: process.env.DB_USER,
     password: process.env.DB_PWD,
